@@ -7,9 +7,7 @@ import { Trigger } from "./Trigger";
 import { ItemActions } from "./ItemActions";
 import { Switch } from "./Switch";
 import { TimeTracker } from "./TimeTracker";
-import {acceptInvite, declineInvite} from '../../controllers/notificationController.js'
-
-
+import {acceptInvite, declineInvite} from '../../controllers/invitationController.js'
 
 const variants = {
   container: {
