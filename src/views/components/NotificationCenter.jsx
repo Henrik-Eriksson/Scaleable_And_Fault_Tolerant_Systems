@@ -2,16 +2,12 @@ import React, { useState } from "react";
 import { Icons, toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
-import Box from '@mui/material/Box';
 import { useNotificationCenter } from "react-toastify/addons/use-notification-center";
 import { Trigger } from "./Trigger";
 import { ItemActions } from "./ItemActions";
 import { Switch } from "./Switch";
 import { TimeTracker } from "./TimeTracker";
-import axios from 'axios';
-import { authenticate } from '../../app.jsx'
-
-
+import {acceptInvite, declineInvite} from '../../controllers/invitationController.js'
 
 const variants = {
   container: {
@@ -126,54 +122,6 @@ const customClear =  () =>
 
   const [showUnreadOnly, toggleFilter] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
-  const fetchEvent = async (eventId) => {
-    try {
-      const response = await axios.get(`http://localhost:5050/api/users/event/${eventId}`);
-      return response.data.event;
-    } catch (error) {
-      console.error("Error fetching data from the target event:", error);
-    }
-
-    
-  };
-const acceptInvite = async (inviteId, eventId, notification) => {
-
-    remove(notification.id);
-
-    let eventData = await fetchEvent(eventId)
-    let userId = await authenticate();
-    const createEventResponse = await axios.post(`http://localhost:5050/api/users/createEvent`, {event: eventData, userId: userId, shared: []});
-  if (createEventResponse.status !== 200) {
-    console.error("Error creating the new event");
-    return;
-  }
-
-  try {
-    await axios.delete(`http://localhost:5050/api/invites/invite/${inviteId}`);
-    // Refresh the notifications or remove the specific notification from the list
-  } catch (error) {
-    console.error("Error removing the invite", error);
-  }
-};
-
-  //remove(notification.id)
-
-const declineInvite = async (inviteId,notification) => {
-  console.log(inviteId);
-  remove(notification.id);
-  try {
-    await axios.delete(`http://localhost:5050/api/invites/invite/${inviteId}`);
-    // Refresh the notifications or remove the specific notification from the list
-  } catch (error) {
-    console.error("Error declining invite:", error);
-  }
-
-
-
-};
-
-
   return (
 
     <NotificationWrapper>

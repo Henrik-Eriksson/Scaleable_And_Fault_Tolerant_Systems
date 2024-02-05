@@ -2,22 +2,13 @@ import React, { useState, useEffect} from "react";
 import { Button, TextField, Typography, FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@mui/material";
 import { Tooltip } from "@mui/material";
 import { authenticate } from '../../app.jsx'
+import {fetchUsers, sendInvitations} from '../../controllers/eventController.js'
 import axios from 'axios';
 
 function CreateEvent({closeDialog, addEvent, setSelectedDates, selectedDates, clearSelectedDates}) {
-
   const [eventType, setEventType] = useState('');
   const [backgroundColor, setBackgroundColor] = useState('black');
   let endDate = null;
-  const fetchUsers = async () => {
-    try {
-        const response = await axios.get('http://localhost:5050/api/users');
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching users:", error);
-        return [];
-    }
-};
 
 useEffect(() => {
     const fetchData = async () => {
@@ -54,25 +45,6 @@ const [users, setUsers] = useState([]);
 
 
 const [selectedUsers, setSelectedUsers] = useState([]);
-
-const sendInvitations = async (eventId) => {
-  try {
-    for (let username of selectedUsers) {
-      const user = users.find(u => u.username === username);
-      if (user) {
-        const inviteData = {
-          eventId: eventId,
-          inviter: await authenticate(), 
-          invited: user._id
-        };
-        await axios.post('http://localhost:5050/api/invites/createInvite', inviteData);
-      }
-    }
-  } catch (error) {
-    console.error("Error sending invitations:", error);
-  }
-};
-
 
 const handleInviteInputChange = (e) => {
   const value = e.target.value;
@@ -273,6 +245,5 @@ const handleUserSelect = (user) => {
       </Paper>
     </div>
   );
-}
-
+};
 export default CreateEvent;

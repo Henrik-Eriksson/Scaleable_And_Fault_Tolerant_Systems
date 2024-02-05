@@ -11,13 +11,14 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import NotificationCenter from './NotificationCenter.jsx';
 import { authenticate } from '../../app.jsx'
 import { useState, useEffect} from "react";
 import axios from 'axios';
+import {fetchInviterUsername, fetchInvites } from '../../controllers/invitationController.js';
+import {fetchData} from '../../controllers/userController.js';
 const pages = ['Home', 'Calendar', 'Profile', 'Account'];
 const links = ['', 'calendar', 'profile', 'account']; 
 const settings = ['Profile', 'Account', 'Logout'];
@@ -40,42 +41,10 @@ const playNotificationSound = () => {
 };
 
 
-const fetchInvites = async () => {
-  try {
-    const userId = await authenticate();
-    const response = await axios.get(`http://localhost:5050/api/invites/receivedInvites/${userId}`);
-    const fetchedInvites = response.data;
-    const inviterUsernames = {};
-
-    // Fetch usernames for each inviter
-    for (let invite of fetchedInvites) {
-      if (invite.inviter) {
-        const usernameResponse = await fetchInviterUsername(invite.inviter);
-        inviterUsernames[invite.inviter] = usernameResponse;
-      }
-    }
-
-    // Now you have a map of inviter IDs to usernames in inviterUsernames
-    // You can use this map to display the usernames in your component
-
-    setInvites(fetchedInvites);
-  } catch (error) {
-    console.error("Error fetching invites:", error);
-  }
-};
-
-
-  const fetchInviterUsername = async (inviterId) => {
-    try {
-      const response = await axios.get(`http://localhost:5050/api/users/usernameFromId/${inviterId}`);
-      setInviterUsername(response.data.username);
-    } catch (error) {
-      console.error("Error fetching inviter's username:", error);
-    }
-  };
-
 useEffect(() => {
     fetchInvites(); // Fetch invites immediately on component mount
+    fetchData();
+
 
     const intervalId = setInterval(() => {
       fetchInvites();
@@ -83,21 +52,6 @@ useEffect(() => {
 
     return () => clearInterval(intervalId); // Cleanup on component unmount
   }, []); // Empty dependency array so it only runs on mount and unmount
-
-useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userId = await authenticate();
-        const response = await fetch(`http://localhost:5050/api/users/${userId}`);
-        const data = await response.json();
-        setUserData(data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
 const [prevInvitesCount, setPrevInvitesCount] = useState(0);
 
@@ -108,7 +62,7 @@ useEffect(() => {
     newInvites.forEach(async (invite) => {
       if (invite.inviter) {
         try {
-          const response = await axios.get(`http://localhost:5050/api/users/usernameFromId/${invite.inviter}`);
+          const response = fetchInviterUsername(invite.inviter);
           const inviterUsername = response.data.username;
           toast(`You have a new invite from ${inviterUsername}`, {
             type: "info",
@@ -120,7 +74,6 @@ useEffect(() => {
         }
       }
     });
-
     setPrevInvitesCount(invites.length);
   }
 }, [invites]);
@@ -158,13 +111,6 @@ useEffect(() => {
     window.location.href = "/account";
   }
 };
-
-
-    const addNotification = () => {
-    toast("Lorem ipsum dolor sit amet, consectetur adipiscing elit", {
-      type: types[Math.floor(Math.random() * types.length)]
-    });
-  };
 
   return (
     <AppBar position="static" sx = {{backgroundColor: '#0F8294'}}>
