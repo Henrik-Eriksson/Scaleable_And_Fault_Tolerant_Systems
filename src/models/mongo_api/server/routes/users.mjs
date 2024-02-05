@@ -166,6 +166,11 @@ async function loginUser(userId, res) {
 
 //USED FOR SIGNUP
 router.post("/signup", async (req, res) => {
+  //TRANSACTIONAL LOGIC TO PREVENT THE POSSIBILITY OF DUPLICATE REGISTRATIONS!!!  SO TREAT THIS AS A AN ATOMIC OPERATION
+  const session = db.startSession();
+  await session.startTransaction();
+
+  try {
   const currentTimestamp = Math.floor(Date.now() / 1000);
   let newDocument = {
 
@@ -192,7 +197,15 @@ router.post("/signup", async (req, res) => {
   let collection = await db.collection("users");
   let result = await collection.insertOne(newDocument);
 
+  // Commit the transaction
+  await session.commitTransaction();
+  session.endSession();
   await loginUser(result.insertedId, res);
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    res.status(404).send(false);
+  }
 });
 //******************************************************************
   // Login function to set up user session
