@@ -3,8 +3,7 @@
 
 ## Description
 
-We will create a Online Event Scheduling Application, a tool for scheduling meetings, appointments and event and we will use the MERN(MongoDB, Express.js, React, and Node.js) stack.
-
+We will make our Web Event Scheduling application scalable. 
 
 ## Authors Group Members
 
@@ -13,7 +12,6 @@ We will create a Online Event Scheduling Application, a tool for scheduling meet
 | Johan Sollenius  | [11Johan11](https://github.com/11Johan11) | 
 | Henrik Eriksson  | [Henrik-Eriksson](https://github.com/Henrik-Eriksson) |
 | Mohamad Alkhaled | [Mohamadalkhaled](https://github.com/Mohamadalkhaled) | 
-| Aron Kesete      | [AronKG](https://github.com/AronKG) | 
 
 # Running instructions
   1. If you don't already have it, Download & install [node.js](https://nodejs.org/en/download)
