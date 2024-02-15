@@ -9,67 +9,42 @@ import CustomCheckBox from '../components/CustomCheckBox.jsx';
 import CustomInfoBox from '../components/CustomInfoBox.jsx';
 import CustomForm from '../components/CustomForm.jsx';
 import { useState } from 'react';
-import axios from 'axios';
+import {loginUser} from '../../controllers/userController.js'
 
 
 
 function Login() {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  });
-
-// State variables to track if username and/or email already exist
-const [usernameError, setUsernameError] = useState(false);
-//const [emailExistsError, setEmailExistsError] = useState(false);
-const [passwordMatchError, setPasswordMatchError] = useState(false); // Define passwordMatchError
-
-const [rememberMe, setRememberMe] = useState(false);
-
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  setUsernameError(false);
-  setPasswordMatchError(false); // Reset passwordMatchError
-  //setEmailExistsError(false);
-
-  // Check if username already exists
-
-   try {
-    const response = await axios.post('http://localhost:5050/api/users/login', {
-      username: formData.username,
-      password: formData.password
+const [formData, setFormData] = useState({
+        username: '',
+        password: '',
     });
 
-    if (response.status === 200) {
-      console.log(response.data);
-      if(rememberMe)
-      {
-        localStorage.setItem('session', response.data); //longterm
-      } else {
-        sessionStorage.setItem('session', response.data); //shortterm
-      }
-      location.replace('/');
-    } else {
+    // State variables for error handling
+    const [usernameError, setUsernameError] = useState(false);
+    const [passwordMatchError, setPasswordMatchError] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
-      console.log(response);
-      
-    }
-  } catch (error) {
-    console.log(error);
-    if(error.response.data.error == "password")
-    {
-        setPasswordMatchError(true);
-    }
-    if(error.response.data.error == "username")
-    {
-      setUsernameError(true);
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    //TODO: ELSE DISPLAY A INTERNALS ERVER ERROR AT THE TOP
-  }
-};
+        // Reset errors
+        setUsernameError(false);
+        setPasswordMatchError(false);
+
+        // Call loginUser from userController
+        const { success, error } = await loginUser(formData.username, formData.password, rememberMe);
+
+        if (success) {
+            location.replace('/');
+        } else {
+            if (error === "password") {
+                setPasswordMatchError(true);
+            } else if (error === "username") {
+                setUsernameError(true);
+            }
+            // Handle other errors or general server error
+        }
+    };
 
 
   return (

@@ -22,3 +22,32 @@ export const fetchUsers = async () => {
         return [];
     }
 }
+
+export const loginUser = async (username, password, rememberMe) => {
+    try {
+        const response = await axios.post('http://localhost:5050/api/users/login', {
+            username,
+            password
+        });
+        
+        if (response.status === 200) {
+            console.log(response.data);
+            if (rememberMe) {
+                localStorage.setItem('session', response.data); // longterm
+            } else {
+                sessionStorage.setItem('session', response.data); // shortterm
+            }
+            return { success: true };
+        } else {
+            console.log(response);
+            return { success: false, error: response };
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        let errorType = "";
+        if (error.response && error.response.data) {
+            errorType = error.response.data.error;
+        }
+        return { success: false, error: errorType };
+    }
+}
