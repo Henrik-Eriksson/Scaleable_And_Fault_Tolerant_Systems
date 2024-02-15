@@ -13,4 +13,4 @@ try {
 
 let db = conn.db("DB");
 
-export default db;
+export { db, client };

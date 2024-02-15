@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import db from "../db/conn.mjs";
+import {db} from "../db/conn.mjs";
 import { ObjectId } from "mongodb";
 
 const router = express.Router();
