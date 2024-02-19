@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db/conn.mjs";
+import { db, client } from '../db/conn.mjs';
 import { ObjectId } from "mongodb";
 
 
@@ -167,7 +167,7 @@ async function loginUser(userId, res) {
 //USED FOR SIGNUP
 router.post("/signup", async (req, res) => {
   //TRANSACTIONAL LOGIC TO PREVENT THE POSSIBILITY OF DUPLICATE REGISTRATIONS!!!  SO TREAT THIS AS A AN ATOMIC OPERATION
-  const session = db.startSession();
+  const session = client.startSession();
   await session.startTransaction();
 
   try {
