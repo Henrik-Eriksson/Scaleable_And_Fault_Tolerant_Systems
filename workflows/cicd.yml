@@ -15,38 +15,34 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # Köra enhetstester (valfritt)
+    # Uncomment the below lines to run unit tests
     #- name: Run Unit Tests
-      #run: npm test 
+    #  run: npm test 
 
-    # Logga in på Azure Container Registry
     - name: Login to Azure Container Registry
       uses: azure/docker-login@v1
       with:
-        login-server: <skalbarasystemcontainerregistry.azurecr.io>
+        login-server: <skalbarasystemcontainerregistry.azurecr.io> # Replace with actual server name
         username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
         password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
 
-    # Bygga och pusha Docker image till Azure Container Registry
     - name: Build and Push Docker Image
       run: |
-        docker build -t skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}} .
-        docker push skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
+        docker build -t skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }} .
+        docker push skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
 
-    # BUil and push internal api server docker image
     - name: Build and Push Internal API Server Docker Image
       run: |
         cd src/models/mongo_api/server
-        docker build -t skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}} .
-        docker push  skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
+        docker build -t skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }} .
+        docker push skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
 
-    # Sätt upp Azure-credentials
+    # Uncomment the below lines to set up Azure credentials and deploy to AKS
     #- name: Set up Azure credentials
     #  uses: azure/login@v1
     #  with:
     #    creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    # Uppdatera Kubernetes-deployment i AKS
+    
     #- name: Deploy to Azure Kubernetes Service
     #  run: |
     #    kubectl set image deployment/myapp-deployment myapp=<your_acr_login_server>/myapp:${{ github.sha }}
