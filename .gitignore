@@ -22,3 +22,41 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+terraform-provider-azurerm_v3.92.0_x5*
+terraform/.terraform/*
+
+# Local .terraform directories
+terraform/.terraform
+
+# .tfstate files
+terraform/.terraform.lock.hcl
+terraform/*.tfstate
+terraform/*.tfstate.*
+
+# Crash log files
+terraform/crash.log
+terraform/crash.*.log
+
+# Exclude all .tfvars files, which are likely to contain sensitive data.
+terraform/*.tfvars
+terraform/*.tfvars.json
+
+terraform-provider-azurerm_v3.92.0_x5*
+terraform/.terraform/*
+
+# Local .terraform directories
+terraform/.terraform
+
+# .tfstate files
+terraform/.terraform.lock.hcl
+terraform/*.tfstate
+terraform/*.tfstate.*
+
+# Crash log files
+terraform/crash.log
+terraform/crash.*.log
+
+# Exclude all .tfvars files, which are likely to contain sensitive data.
+terraform/*.tfvars
+terraform/*.tfvars.json
