@@ -13,7 +13,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    #- uses: actions/checkout@v2
 
     # Uncomment the below lines to run unit tests
     #- name: Run Unit Tests
