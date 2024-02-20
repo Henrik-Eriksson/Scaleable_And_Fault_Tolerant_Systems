@@ -37,7 +37,7 @@ jobs:
         docker build -t skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}} .
         docker push  skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
 
-# Configure kubectl
+  # Configure kubectl
     - name: Set up kubectl
       run: |
         echo "${{ secrets.KUBE_CERTIFICATE }}" | base64 -d > ca.crt
@@ -45,8 +45,11 @@ jobs:
         kubectl config set-credentials aks-cluster-user --token=${{ secrets.KUBE_TOKEN }}
         kubectl config set-context aks-cluster --cluster=aks-cluster --user=aks-cluster-user
         kubectl config use-context aks-cluster
-
-
+    
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f deployment.yml
+    
     # Uppdatera Kubernetes-deployment i AKS
     - name: Deploy to Azure Kubernetes Service
       run: |
