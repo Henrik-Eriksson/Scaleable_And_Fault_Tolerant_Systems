@@ -7,9 +7,6 @@ WORKDIR /api
 # Kopiera API-serverns filer till containern
 COPY . /api
 
-# Installera API-serverns beroenden
-RUN npm install
-
 # Exponera porten som din API-server använder (om tillämpligt)
 # Ersätt 'YYYY' med den faktiska porten som används av din API-server
 EXPOSE 5050
