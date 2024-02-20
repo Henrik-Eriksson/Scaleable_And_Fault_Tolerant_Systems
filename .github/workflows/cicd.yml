@@ -74,7 +74,7 @@ jobs:
                 image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
                 ports:
                 - containerPort: 5050
-              imagePullSecrets;
+              imagePullSecrets:
                 - name: myregistrysecret
         " > deployment.yaml
         kubectl apply -f deployment.yaml
