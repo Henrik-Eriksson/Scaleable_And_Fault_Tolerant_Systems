@@ -44,7 +44,9 @@ jobs:
     #    creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     # Uppdatera Kubernetes-deployment i AKS
-    #- name: Deploy to Azure Kubernetes Service
-    #  run: |
-    #    kubectl set image deployment/myapp-deployment myapp=<your_acr_login_server>/myapp:${{ github.sha }}
-    #    kubectl rollout status deployment/myapp-deployment
+    - name: Deploy to Azure Kubernetes Service
+      run: |
+        kubectl set image deployment/myapp myapp=skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
+        kubectl rollout status deployment/myapp --timeout=10m
+        kubectl set image deployment/internal_api_server internal_api_server=skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
+        kubectl rollout status deployment/internal_api_server --timeout=10m
