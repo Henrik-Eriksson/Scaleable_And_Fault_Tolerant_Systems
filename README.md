@@ -30,7 +30,7 @@ We will make our Web Event Scheduling application scalable.
 
   This command starts the development server. You should be able to see the project running in the terminal. The terminal will display the port on which the local server is hosted, typically (http://localhost:5XXXX) or another specified port.
 
-  8. Open up a terminal in the mongo_api/server folder
+  8. Open up a terminal in the \src\models\mongo_api\server folder
 
   10. Start the internal API server that communicates with the cloud DB
     ```node server.mjs```
