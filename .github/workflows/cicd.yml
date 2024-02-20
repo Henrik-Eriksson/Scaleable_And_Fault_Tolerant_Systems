@@ -76,12 +76,12 @@ jobs:
                 - containerPort: 5050
         " > deployment.yaml
         kubectl apply -f deployment.yaml
-
+        kubectl rollout status deployment/myapp-deployment --timeout=10m
     
     # Uppdatera Kubernetes-deployment i AKS
-    - name: Deploy to Azure Kubernetes Service
-      run: |
-        kubectl set image deployment/myapp myapp=skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
-        kubectl rollout status deployment/myapp --timeout=10m
-        kubectl set image deployment/internal_api_server internal_api_server=skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
-        kubectl rollout status deployment/internal_api_server --timeout=10m
+    #- name: Deploy to Azure Kubernetes Service
+      #run: |
+        #kubectl set image deployment/myapp myapp=skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
+        # kubectl rollout status deployment/deployment/myapp-deployment --timeout=10m
+        #kubectl set image deployment/internal_api_server internal_api_server=skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
+        #kubectl rollout status deployment/internal_api_server --timeout=10m
