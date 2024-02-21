@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  labels:
+    app: myapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp-container
+        image: skalbarasystemcontainerregistry.azurecr.io/myapp:latest
+        ports:
+        - containerPort: 5174
+      - name: internal-api-server-container
+        image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:latest
+        ports:
+        - containerPort: 5050

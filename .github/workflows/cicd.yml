@@ -37,14 +37,51 @@ jobs:
         docker build -t skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}} .
         docker push  skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
 
-    # Sätt upp Azure-credentials
-    #- name: Set up Azure credentials
-    #  uses: azure/login@v1
-    #  with:
-    #    creds: ${{ secrets.AZURE_CREDENTIALS }}
-
+  # Configure kubectl
+    - name: Set up kubectl
+      run: |
+        echo "${{ secrets.KUBE_CERTIFICATE }}" | base64 -d > ca.crt
+        kubectl config set-cluster aks-cluster --embed-certs=true --server=${{ secrets.KUBE_SERVER }} --certificate-authority=ca.crt
+        kubectl config set-credentials aks-cluster-user --token=${{ secrets.KUBE_TOKEN }}
+        kubectl config set-context aks-cluster --cluster=aks-cluster --user=aks-cluster-user
+        kubectl config use-context aks-cluster
+    
+    - name: Deploy to Kubernetes
+      run: |
+        echo "
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: myapp-deployment
+          labels:
+            app: myapp
+        spec:
+          replicas: 3
+          selector:
+            matchLabels:
+              app: myapp
+          template:
+            metadata:
+              labels:
+                app: myapp
+            spec:
+              containers:
+              - name: myapp-container
+                image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
+                ports:
+                - containerPort: 5174
+              - name: internal-api-server-container
+                image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
+                ports:
+                - containerPort: 5050
+        " > deployment.yaml
+        kubectl apply -f deployment.yaml
+        kubectl rollout status deployment/myapp-deployment --timeout=10m
+    
     # Uppdatera Kubernetes-deployment i AKS
     #- name: Deploy to Azure Kubernetes Service
-    #  run: |
-    #    kubectl set image deployment/myapp-deployment myapp=<your_acr_login_server>/myapp:${{ github.sha }}
-    #    kubectl rollout status deployment/myapp-deployment
+      #run: |
+        #kubectl set image deployment/myapp myapp=skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
+        # kubectl rollout status deployment/deployment/myapp-deployment --timeout=10m
+        #kubectl set image deployment/internal_api_server internal_api_server=skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
+        #kubectl rollout status deployment/internal_api_server --timeout=10m
