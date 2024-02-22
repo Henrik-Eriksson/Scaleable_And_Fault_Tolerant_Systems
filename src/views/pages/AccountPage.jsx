@@ -3,7 +3,7 @@ import { Grid, Typography, TextField, Button, Link, Avatar, Box, Badge, IconButt
 import BuildIcon from '@mui/icons-material/Build';
 import EditIcon from '@mui/icons-material/Edit';
 import ResponsiveAppBar from "../components/ResponsiveAppBar.jsx";
-import { authenticate } from '../../app.jsx'
+import { authenticate } from '../../App.jsx'
 import { Snackbar, Alert } from "@mui/material";
 
 
@@ -275,7 +275,7 @@ const handleSavePassword = async () => {
 
       <ResponsiveAppBar />
       <div style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),url(./src/assets/xd.png)`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),url(./assets/xd.png)`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         height: "100vh",

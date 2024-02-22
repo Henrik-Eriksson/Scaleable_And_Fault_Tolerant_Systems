@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import NotificationCenter from './NotificationCenter.jsx';
-import { authenticate } from '../../app.jsx'
+import { authenticate } from '../../App.jsx'
 import { useState, useEffect} from "react";
 import axios from 'axios';
 import {fetchInviterUsername, fetchInvites } from '../../controllers/invitationController.js';
@@ -36,7 +36,7 @@ function ResponsiveAppBar() {
 
 
 const playNotificationSound = () => {
-  const audio = new Audio('src/assets/pling.mp3'); // Adjust the path if your audio file is located elsewhere
+  const audio = new Audio('assets/pling.mp3'); // Adjust the path if your audio file is located elsewhere
   audio.play();
 };
 
@@ -116,7 +116,7 @@ useEffect(() => {
     <AppBar position="static" sx = {{backgroundColor: '#0F8294'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Avatar src= "../../src/assets/Fish_icon.png" sx={{ display: { xs: 'none', md: 'inline'}, mr: 1 }} />
+          <Avatar src= "../../assets/Fish_icon.png" sx={{ display: { xs: 'none', md: 'inline'}, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -171,7 +171,7 @@ useEffect(() => {
               ))}
             </Menu>
           </Box>
-          <Avatar src= "../../src/assets/Fish_icon.png" sx={{ display: { xs: 'flex', md: 'none'}, mr: 1 }} />
+          <Avatar src= "../../assets/Fish_icon.png" sx={{ display: { xs: 'flex', md: 'none'}, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap

@@ -15,7 +15,7 @@ import { useState, useEffect, useRef } from 'react';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import EventDetails from '../components/EventDetails.jsx';
-import { authenticate } from '../../app.jsx'
+import { authenticate } from '../../App.jsx'
 import { Snackbar, Alert } from "@mui/material";
 
 
@@ -28,7 +28,7 @@ font-size: 0.95em;  /* Adjust as needed */
     background: rgba(205, 209, 228, .3);
   }
   .fc-media-screen {
-    background-image: url('./src/assets/hehehe.png');
+    background-image: url('./assets/hehehe.png');
     background-size: cover; /* Adjust the image to cover the entire element */
     background-repeat: no-repeat; /* Prevents the image from repeating */
     background-position: center; /* Centers the image */
@@ -345,7 +345,7 @@ function toLocalISOString(date) {
   return (
 
     <div style={{
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url(./src/assets/hejsan.png)`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url(./assets/hejsan.png)`,
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       height: "100vh", // This will make sure the div takes the full viewport height

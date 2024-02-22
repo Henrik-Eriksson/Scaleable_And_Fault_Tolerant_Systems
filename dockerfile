@@ -1,18 +1,18 @@
-# Välj Node.js som basimage
+# Use an official lightweight Node.js base image
 FROM node:latest
 
-# Skapa och sätt arbetsmappen
+# Set the working directory in the container
 WORKDIR /app
 
-# Kopiera projektets filer till containern
-COPY . /app
+# Copy the built static files from your dist folder into the container
+COPY ./dist/ /app
 
-# Installera projektberoenden
-RUN npm install
+# Install a simple http server for serving static content
+RUN npm install -g http-server
 
-# Exponera porten som din Node.js-applikation använder
-# Ersätt 'XXXX' med den faktiska porten som används av din applikation
-EXPOSE 5174
+# Expose port 80
+EXPOSE 80
 
-# Starta utvecklingsservern för din Node.js-applikation
-CMD ["npm", "run", "dev"]
+# Start the server
+CMD ["http-server", "/app", "-p 80"]
+

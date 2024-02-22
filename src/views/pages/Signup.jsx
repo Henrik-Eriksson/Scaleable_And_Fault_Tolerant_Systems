@@ -47,7 +47,7 @@ function Signup() {
 
   return (
     <div style={{
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)),url(./src/assets/xd.png)`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)),url(./assets/xd.png)`,
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       overflow: "hidden",

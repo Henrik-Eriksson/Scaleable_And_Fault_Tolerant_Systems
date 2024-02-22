@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import { Button, TextField, Typography, FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@mui/material";
 import { Tooltip } from "@mui/material";
-import { authenticate } from '../../app.jsx'
+import { authenticate } from '../../App.jsx'
 import {fetchUsers, sendInvitations} from '../../controllers/eventController.js'
 import axios from 'axios';
 
@@ -172,7 +172,7 @@ const handleUserSelect = (user) => {
 
   return (
     <div style={{
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)),url(./src/assets/xd.png)`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)),url(./assets/xd.png)`,
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       height: "auto",

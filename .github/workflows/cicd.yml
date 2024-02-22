@@ -16,6 +16,7 @@ jobs:
     #- name: Run Unit Tests
       #run: npm test 
 
+
     # Logga in på Azure Container Registry
     - name: Login to Azure Container Registry
       uses: azure/docker-login@v1
@@ -27,6 +28,8 @@ jobs:
     # Bygga och pusha Docker image till Azure Container Registry
     - name: Build and Push Docker Image
       run: |
+        npm install
+        npm run build
         docker build -t skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}} .
         docker push skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
 
@@ -69,7 +72,7 @@ jobs:
               - name: myapp-container
                 image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
                 ports:
-                - containerPort: 5174
+                - containerPort: 5173
               - name: internal-api-server-container
                 image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
                 ports:
