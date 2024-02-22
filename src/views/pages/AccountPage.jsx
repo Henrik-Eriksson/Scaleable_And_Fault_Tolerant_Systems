@@ -3,7 +3,7 @@ import { Grid, Typography, TextField, Button, Link, Avatar, Box, Badge, IconButt
 import BuildIcon from '@mui/icons-material/Build';
 import EditIcon from '@mui/icons-material/Edit';
 import ResponsiveAppBar from "../components/ResponsiveAppBar.jsx";
-import { authenticate } from '../../app.jsx'
+import { authenticate } from '../../App.jsx'
 import { Snackbar, Alert } from "@mui/material";
 
 

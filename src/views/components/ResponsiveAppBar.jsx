@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import NotificationCenter from './NotificationCenter.jsx';
-import { authenticate } from '../../app.jsx'
+import { authenticate } from '../../App.jsx'
 import { useState, useEffect} from "react";
 import axios from 'axios';
 import {fetchInviterUsername, fetchInvites } from '../../controllers/invitationController.js';

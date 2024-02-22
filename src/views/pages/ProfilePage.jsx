@@ -4,7 +4,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import UserIcon from '@mui/icons-material/Person';
 import EventIcon from '@mui/icons-material/Event';
 import ResponsiveAppBar from "../components/ResponsiveAppBar.jsx";
-import { authenticate } from '../../app.jsx'; // Assuming you have this function in app.jsx
+import { authenticate } from '../../App.jsx'; // Assuming you have this function in App.jsx
 
 const ProfileCard = ({ title, children }) => (
   <Paper elevation={3} sx={{ p: 3, mb: 2, backgroundColor: '#FFFFFF' }}>
