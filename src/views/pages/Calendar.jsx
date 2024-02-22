@@ -15,7 +15,7 @@ import { useState, useEffect, useRef } from 'react';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import EventDetails from '../components/EventDetails.jsx';
-import { authenticate } from '../../app.jsx'
+import { authenticate } from '../../App.jsx'
 import { Snackbar, Alert } from "@mui/material";
 
 
