@@ -68,7 +68,7 @@ const UserProfile = () => {
       <ResponsiveAppBar />
       <Box
         sx={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),url(./src/assets/xd.png)`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),url(./assets/xd.png)`,
           backgroundSize: "cover",
           height: "100vh",
           display: "flex",

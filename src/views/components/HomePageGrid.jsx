@@ -7,7 +7,7 @@ import { Grid, Paper} from '@mui/material';
 function HomePageGrid(){
     return(
         <div style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),url(./src/assets/xd.png)`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),url(./assets/xd.png)`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             height: "100vh",

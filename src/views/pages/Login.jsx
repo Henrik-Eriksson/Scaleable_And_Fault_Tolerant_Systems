@@ -49,7 +49,7 @@ const [formData, setFormData] = useState({
 
   return (
     <div style={{
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)),url(./src/assets/hejsan.png)`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)),url(./assets/hejsan.png)`,
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       height: "100vh", // This will make sure the div takes the full viewport height

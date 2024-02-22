@@ -36,7 +36,7 @@ function ResponsiveAppBar() {
 
 
 const playNotificationSound = () => {
-  const audio = new Audio('src/assets/pling.mp3'); // Adjust the path if your audio file is located elsewhere
+  const audio = new Audio('assets/pling.mp3'); // Adjust the path if your audio file is located elsewhere
   audio.play();
 };
 
@@ -116,7 +116,7 @@ useEffect(() => {
     <AppBar position="static" sx = {{backgroundColor: '#0F8294'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Avatar src= "../../src/assets/Fish_icon.png" sx={{ display: { xs: 'none', md: 'inline'}, mr: 1 }} />
+          <Avatar src= "../../assets/Fish_icon.png" sx={{ display: { xs: 'none', md: 'inline'}, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -171,7 +171,7 @@ useEffect(() => {
               ))}
             </Menu>
           </Box>
-          <Avatar src= "../../src/assets/Fish_icon.png" sx={{ display: { xs: 'flex', md: 'none'}, mr: 1 }} />
+          <Avatar src= "../../assets/Fish_icon.png" sx={{ display: { xs: 'flex', md: 'none'}, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
