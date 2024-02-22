@@ -1,3 +1,5 @@
+FROM node:latest
+
 # Skapa och sätt arbetsmappen
 WORKDIR /app
 
