@@ -72,7 +72,7 @@ jobs:
               - name: myapp-container
                 image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
                 ports:
-                - containerPort: 5173
+                - containerPort: 80
               - name: internal-api-server-container
                 image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
                 ports:
