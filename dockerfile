@@ -15,3 +15,4 @@ EXPOSE 80
 
 # Start the server
 CMD ["http-server", "/app", "-p 80"]
+
