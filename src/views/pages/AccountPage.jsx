@@ -275,7 +275,7 @@ const handleSavePassword = async () => {
 
       <ResponsiveAppBar />
       <div style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),url(./assets/xd.png)`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),url(../../../xd.png)`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         height: "100vh",

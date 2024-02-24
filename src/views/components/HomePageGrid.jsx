@@ -1,13 +1,12 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Homepage_picture from '../../assets/TimeTuna_logo.png';
 import { Grid, Paper} from '@mui/material';
 
 function HomePageGrid(){
     return(
         <div style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),url(./assets/xd.png)`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)),url(../../../xd.png)`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             height: "100vh",
@@ -18,7 +17,7 @@ function HomePageGrid(){
         <Grid container spacing = {0} sx ={{alignItems: 'center', justifyContent: 'center'}}>
                 <Grid item xs={12} sm ={6} md = {6} sx={{ display: { xs: 'none', sm: 'none', md: 'block' }  }}>
                     <Paper sx = {{p: 5, boxShadow: 'none', backgroundColor: 'rgba(255,255,255,0.0)'}}>
-                         <img src={Homepage_picture} width = "600"></img>
+                         <img src='../../../TimeTuna_logo.png' width = "600"></img>
                     </Paper>
                 </Grid>
                 <Grid item xs={12} sm = {10} md = {6}>
