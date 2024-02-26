@@ -102,6 +102,21 @@ jobs:
                   port: 5050
                  failureThreshold: 10
                  periodSeconds: 10
+                livenessProbe:
+                  httpGet:
+                    path: /status 
+                    port: 5050
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3                 
+                readinessProbe:
+                  httpGet:
+                    path: /api/health
+                    port: 5050
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+
         " > deployment.yaml
         kubectl apply -f deployment.yaml
         kubectl rollout status deployment/myapp-deployment --timeout=10m
