@@ -73,10 +73,20 @@ jobs:
                 image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
                 ports:
                 - containerPort: 80
+                startupProbe:
+                 tcpSocket:
+                  port: 80
+                 failureThreshold: 10
+                 periodSeconds: 10
               - name: internal-api-server-container
                 image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
                 ports:
                 - containerPort: 5050
+                startupProbe:
+                 tcpSocket:
+                  port: 5050
+                 failureThreshold: 10
+                 periodSeconds: 10
         " > deployment.yaml
         kubectl apply -f deployment.yaml
         kubectl rollout status deployment/myapp-deployment --timeout=10m
