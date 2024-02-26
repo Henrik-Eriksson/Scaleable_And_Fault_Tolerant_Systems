@@ -119,7 +119,7 @@ jobs:
                     initialDelaySeconds: 5
                     periodSeconds: 10
         " > deployment.yaml
+
         kubectl apply -f deployment.yaml
         kubectl rollout status deployment/myapp-deployment --timeout=10m
-        kubectl apply -f autoscaling.yml
-        kubectl get autoscaling.yml
+        kubectl apply -f .github/workflows/autoscaling.yml
