@@ -73,6 +73,13 @@ jobs:
                 image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
                 ports:
                 - containerPort: 80
+                recources:
+                  requests:
+                    memory: "64Mi"
+                    cpu: "250m"
+                  limits:
+                    memory: "128Mi"
+                    cpu: "500m"
                 startupProbe:
                   exec:
                     command:
@@ -97,6 +104,13 @@ jobs:
                 image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
                 ports:
                 - containerPort: 5050
+                recources:
+                  requests:
+                    memory: "64Mi"
+                    cpu: "250m"
+                  limits:
+                    memory: "128Mi"
+                    cpu: "500m"
                 startupProbe:
                  tcpSocket:
                   port: 5050
