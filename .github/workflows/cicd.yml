@@ -15,7 +15,7 @@ jobs:
     # Köra enhetstester (valfritt)
     #- name: Run Unit Tests
       #run: npm test 
-
+    
 
     # Logga in på Azure Container Registry
     - name: Login to Azure Container Registry
@@ -72,11 +72,58 @@ jobs:
               - name: myapp-container
                 image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
                 ports:
-                - containerPort: 5173
+                - containerPort: 80
+                resources:
+                  requests:
+                    cpu: "250m"  # Reduced from 500m
+                    memory: "500Mi"  # Reduced from 1Gi
+                  limits:
+                    cpu: "500m"  # Same as before
+                    memory: "1Gi"  # Same as before                    
+                startupProbe:
+                  exec:
+                    command:
+                    - sh
+                    - -c
+                    - 'test -f /app/index.html'
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                livenessProbe:
+                  tcpSocket:
+                    port: 80
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+                readinessProbe: 
+                  httpGet:
+                    path: /
+                    port: 80
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                  timeoutSeconds: 1              
               - name: internal-api-server-container
                 image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
                 ports:
                 - containerPort: 5050
+                startupProbe:
+                 tcpSocket:
+                  port: 5050
+                 failureThreshold: 10
+                 periodSeconds: 10
+                livenessProbe:
+                  httpGet:
+                    path: /status 
+                    port: 5050
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3                 
+                readinessProbe:
+                  httpGet:
+                    path: /health
+                    port: 5050
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+
         " > deployment.yaml
         kubectl apply -f deployment.yaml
         kubectl rollout status deployment/myapp-deployment --timeout=10m
