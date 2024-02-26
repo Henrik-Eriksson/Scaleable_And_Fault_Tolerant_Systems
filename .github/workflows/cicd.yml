@@ -127,7 +127,8 @@ jobs:
         " > deployment.yaml
         kubectl apply -f deployment.yaml
         kubectl rollout status deployment/myapp-deployment --timeout=10m
-    
+    	kubectl apply -f autoscaling.yml
+        kubectl get autoscaling.yml
     # Uppdatera Kubernetes-deployment i AKS
     #- name: Deploy to Azure Kubernetes Service
       #run: |
