@@ -112,7 +112,7 @@ jobs:
                   failureThreshold: 3                 
                 readinessProbe:
                   httpGet:
-                    path: /api/health
+                    path: /health
                     port: 5050
                   initialDelaySeconds: 5
                   periodSeconds: 10
