@@ -73,7 +73,7 @@ jobs:
                 image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
                 ports:
                 - containerPort: 80
-                recources:
+                resources:
                   requests:
                     memory: "64Mi"
                     cpu: "250m"
@@ -104,7 +104,7 @@ jobs:
                 image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
                 ports:
                 - containerPort: 5050
-                recources:
+                resources:
                   requests:
                     memory: "64Mi"
                     cpu: "250m"
