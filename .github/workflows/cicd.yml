@@ -12,11 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # Köra enhetstester (valfritt)
-    #- name: Run Unit Tests
-      #run: npm test 
-    
-
     # Logga in på Azure Container Registry
     - name: Login to Azure Container Registry
       uses: azure/docker-login@v1
@@ -30,17 +25,17 @@ jobs:
       run: |
         npm install
         npm run build
-        docker build -t skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}} .
-        docker push skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
+        docker build -t skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }} .
+        docker push skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
 
-    # BUil and push internal api server docker image
+    # Build and push internal api server docker image
     - name: Build and Push Internal API Server Docker Image
       run: |
         cd src/models/mongo_api/server
-        docker build -t skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}} .
-        docker push  skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
+        docker build -t skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }} .
+        docker push skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
 
-  # Configure kubectl
+    # Configure kubectl
     - name: Set up kubectl
       run: |
         echo "${{ secrets.KUBE_CERTIFICATE }}" | base64 -d > ca.crt
@@ -51,89 +46,80 @@ jobs:
     
     - name: Deploy to Kubernetes
       run: |
-          echo "
-        apiVersion: apps/v1
-        kind: Deployment
-        metadata:
-          name: myapp-deployment
-          labels:
-            app: myapp
-        spec:
-          replicas: 3
-          selector:
-            matchLabels:
+        echo "
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: myapp-deployment
+            labels:
               app: myapp
-          template:
-            metadata:
-              labels:
+          spec:
+            replicas: 3
+            selector:
+              matchLabels:
                 app: myapp
-            spec:
-              containers:
-              - name: myapp-container
-                image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
-                ports:
-                - containerPort: 80
-                resources:
-                  requests:
-                    cpu: "250m"  # Reduced from 500m
-                    memory: "500Mi"  # Reduced from 1Gi
-                  limits:
-                    cpu: "500m"  # Same as before
-                    memory: "1Gi"  # Same as before                    
-                startupProbe:
-                  exec:
-                    command:
-                    - sh
-                    - -c
-                    - 'test -f /app/index.html'
-                  initialDelaySeconds: 5
-                  periodSeconds: 5
-                livenessProbe:
-                  tcpSocket:
-                    port: 80
-                  initialDelaySeconds: 15
-                  periodSeconds: 10
-                readinessProbe: 
-                  httpGet:
-                    path: /
-                    port: 80
-                  initialDelaySeconds: 5
-                  periodSeconds: 5
-                  timeoutSeconds: 1              
-              - name: internal-api-server-container
-                image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
-                ports:
-                - containerPort: 5050
-                startupProbe:
-                 tcpSocket:
-                  port: 5050
-                 failureThreshold: 10
-                 periodSeconds: 10
-                livenessProbe:
-                  httpGet:
-                    path: /status 
-                    port: 5050
-                  initialDelaySeconds: 15
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 3                 
-                readinessProbe:
-                  httpGet:
-                    path: /health
-                    port: 5050
-                  initialDelaySeconds: 5
-                  periodSeconds: 10
-
+            template:
+              metadata:
+                labels:
+                  app: myapp
+              spec:
+                containers:
+                - name: myapp-container
+                  image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
+                  ports:
+                  - containerPort: 80
+                  resources:
+                    requests:
+                      cpu: '250m'
+                      memory: '500Mi'
+                    limits:
+                      cpu: '500m'
+                      memory: '1Gi'
+                  startupProbe:
+                    exec:
+                      command:
+                      - sh
+                      - -c
+                      - 'test -f /app/index.html'
+                    initialDelaySeconds: 5
+                    periodSeconds: 5
+                  livenessProbe:
+                    tcpSocket:
+                      port: 80
+                    initialDelaySeconds: 15
+                    periodSeconds: 10
+                  readinessProbe: 
+                    httpGet:
+                      path: /
+                      port: 80
+                    initialDelaySeconds: 5
+                    periodSeconds: 5
+                    timeoutSeconds: 1
+                - name: internal-api-server-container
+                  image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
+                  ports:
+                  - containerPort: 5050
+                  startupProbe:
+                    tcpSocket:
+                      port: 5050
+                    failureThreshold: 10
+                    periodSeconds: 10
+                  livenessProbe:
+                    httpGet:
+                      path: /status
+                      port: 5050
+                    initialDelaySeconds: 15
+                    periodSeconds: 10
+                    timeoutSeconds: 5
+                    failureThreshold: 3
+                  readinessProbe:
+                    httpGet:
+                      path: /health
+                      port: 5050
+                    initialDelaySeconds: 5
+                    periodSeconds: 10
         " > deployment.yaml
-      kubectl apply -f deployment.yaml
-      kubectl rollout status deployment/myapp-deployment --timeout=10m
-      kubectl apply -f autoscaling.yml
-      kubectl get autoscaling.yml
-
-    # Uppdatera Kubernetes-deployment i AKS
-    #- name: Deploy to Azure Kubernetes Service
-      #run: |
-        #kubectl set image deployment/myapp myapp=skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
-        # kubectl rollout status deployment/deployment/myapp-deployment --timeout=10m
-        #kubectl set image deployment/internal_api_server internal_api_server=skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
-        #kubectl rollout status deployment/internal_api_server --timeout=10m
+        kubectl apply -f deployment.yaml
+        kubectl rollout status deployment/myapp-deployment --timeout=10m
+        kubectl apply -f autoscaling.yml
+        kubectl get autoscaling.yml
