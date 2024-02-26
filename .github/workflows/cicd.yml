@@ -73,12 +73,13 @@ jobs:
                 image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
                 ports:
                 - containerPort: 80
-                requests:
-                  cpu: "250m"  # Reduced from 500m
-                  memory: "500Mi"  # Reduced from 1Gi
-                limits:
-                  cpu: "500m"  # Same as before
-                  memory: "1Gi"  # Same as before
+                resources:
+                  requests:
+                    cpu: "250m"  # Reduced from 500m
+                    memory: "500Mi"  # Reduced from 1Gi
+                  limits:
+                    cpu: "500m"  # Same as before
+                    memory: "1Gi"  # Same as before                    
                 startupProbe:
                   exec:
                     command:
