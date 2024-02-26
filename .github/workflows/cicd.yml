@@ -51,7 +51,7 @@ jobs:
     
     - name: Deploy to Kubernetes
       run: |
-        echo "
+          echo "
         apiVersion: apps/v1
         kind: Deployment
         metadata:
@@ -125,10 +125,11 @@ jobs:
                   periodSeconds: 10
 
         " > deployment.yaml
-        kubectl apply -f deployment.yaml
-        kubectl rollout status deployment/myapp-deployment --timeout=10m
-    	kubectl apply -f autoscaling.yml
-        kubectl get autoscaling.yml
+      kubectl apply -f deployment.yaml
+      kubectl rollout status deployment/myapp-deployment --timeout=10m
+      kubectl apply -f autoscaling.yml
+      kubectl get autoscaling.yml
+
     # Uppdatera Kubernetes-deployment i AKS
     #- name: Deploy to Azure Kubernetes Service
       #run: |
