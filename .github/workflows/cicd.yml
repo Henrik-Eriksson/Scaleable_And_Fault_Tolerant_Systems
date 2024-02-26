@@ -15,7 +15,7 @@ jobs:
     # Köra enhetstester (valfritt)
     #- name: Run Unit Tests
       #run: npm test 
-
+    
 
     # Logga in på Azure Container Registry
     - name: Login to Azure Container Registry
@@ -74,10 +74,25 @@ jobs:
                 ports:
                 - containerPort: 80
                 startupProbe:
-                 tcpSocket:
-                  port: 80
-                 failureThreshold: 10
-                 periodSeconds: 10
+                  exec:
+                    command:
+                    - sh
+                    - -c
+                    - 'test -f /index.html'
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                livenessProbe:
+                  tcpSocket:
+                    port: 80
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+                readinessProbe: 
+                  httpGet:
+                    path: /
+                    port: 80
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                  timeoutSeconds: 1              
               - name: internal-api-server-container
                 image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
                 ports:
