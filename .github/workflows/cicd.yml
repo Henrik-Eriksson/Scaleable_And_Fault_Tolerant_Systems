@@ -2,58 +2,56 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [master]
+    branches: [ master ]
   pull_request:
-    branches: [master]
+    branches: [ master ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      # installer dependencies
-      - name: Install Dependencies
-        run: npm install
+    #maek smale test
+    - name: Maek teste
+      run: |
+        npm install
+        npm run test
 
-      # Köra enhetstester
-      - name: Run Unit Tests
-        run: npm test
+    # Logga in på Azure Container Registry
+    - name: Login to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: skalbarasystemcontainerregistry.azurecr.io
+        username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
+        password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
 
-      # Logga in på Azure Container Registry
-      - name: Login to Azure Container Registry
-        uses: azure/docker-login@v1
-        with:
-          login-server: skalbarasystemcontainerregistry.azurecr.io
-          username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
-          password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
+    # Bygga och pusha Docker image till Azure Container Registry
+    - name: Build and Push Docker Image
+      run: |
+        npm run build
+        docker build -t skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }} .
+        docker push skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
 
-      # Bygga och pusha Docker image till Azure Container Registry
-      - name: Build and Push Docker Image
-        run: |
-          npm run build
-          docker build -t skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}} .
-          docker push skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
+    # Build and push internal api server docker image
+    - name: Build and Push Internal API Server Docker Image
+      run: |
+        cd src/models/mongo_api/server
+        docker build -t skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }} .
+        docker push skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
 
-      # BUil and push internal api server docker image
-      - name: Build and Push Internal API Server Docker Image
-        run: |
-          cd src/models/mongo_api/server
-          docker build -t skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}} .
-          docker push  skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
-
-      # Configure kubectl
-      - name: Set up kubectl
-        run: |
-          echo "${{ secrets.KUBE_CERTIFICATE }}" | base64 -d > ca.crt
-          kubectl config set-cluster aks-cluster --embed-certs=true --server=${{ secrets.KUBE_SERVER }} --certificate-authority=ca.crt
-          kubectl config set-credentials aks-cluster-user --token=${{ secrets.KUBE_TOKEN }}
-          kubectl config set-context aks-cluster --cluster=aks-cluster --user=aks-cluster-user
-          kubectl config use-context aks-cluster
-
-      - name: Deploy to Kubernetes
-        run: |
-          echo "
+    # Configure kubectl
+    - name: Set up kubectl
+      run: |
+        echo "${{ secrets.KUBE_CERTIFICATE }}" | base64 -d > ca.crt
+        kubectl config set-cluster aks-cluster --embed-certs=true --server=${{ secrets.KUBE_SERVER }} --certificate-authority=ca.crt
+        kubectl config set-credentials aks-cluster-user --token=${{ secrets.KUBE_TOKEN }}
+        kubectl config set-context aks-cluster --cluster=aks-cluster --user=aks-cluster-user
+        kubectl config use-context aks-cluster
+    
+    - name: Deploy to Kubernetes
+      run: |
+        echo "
           apiVersion: apps/v1
           kind: Deployment
           metadata:
@@ -72,10 +70,16 @@ jobs:
               spec:
                 containers:
                 - name: myapp-container
-                  image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha}}
+                  image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
                   ports:
                   - containerPort: 80
-                  resources: \${{ fromYaml(needs.setup.outputs.myapp_container_resources) }}
+                  resources:
+                    requests:
+                      cpu: '250m'
+                      memory: '500Mi'
+                    limits:
+                      cpu: '500m'
+                      memory: '1Gi'
                   startupProbe:
                     exec:
                       command:
@@ -95,41 +99,28 @@ jobs:
                       port: 80
                     initialDelaySeconds: 5
                     periodSeconds: 5
-                    timeoutSeconds: 1              
+                    timeoutSeconds: 1
                 - name: internal-api-server-container
-                  image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha}}
+                  image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
                   ports:
                   - containerPort: 5050
-                  resources: \${{ fromYaml(needs.setup.outputs.internal_api_server_container_resources) }}
                   startupProbe:
-                   tcpSocket:
-                    port: 5050
-                   failureThreshold: 10
-                   periodSeconds: 10
+                    tcpSocket:
+                      port: 5050
+                    failureThreshold: 10
+                    periodSeconds: 10
                   livenessProbe:
                     httpGet:
-                      path: /status 
+                      path: /status
                       port: 5050
                     initialDelaySeconds: 15
                     periodSeconds: 10
                     timeoutSeconds: 5
-                    failureThreshold: 3                 
+                    failureThreshold: 3
                   readinessProbe:
                     httpGet:
                       path: /health
                       port: 5050
                     initialDelaySeconds: 5
                     periodSeconds: 10
-
-          " > deployment.yaml
-          kubectl apply -f deployment.yaml
-          kubectl rollout status deployment/myapp-deployment --timeout=10m
-          kubectl apply -f autoscaling.yml
-          kubectl get autoscaling.yml
-    # Uppdatera Kubernetes-deployment i AKS
-    #- name: Deploy to Azure Kubernetes Service
-    #run: |
-    #kubectl set image deployment/myapp myapp=skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
-    # kubectl rollout status deployment/deployment/myapp-deployment --timeout=10m
-    #kubectl set image deployment/internal_api_server internal_api_server=skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
-    #kubectl rollout status deployment/internal_api_server --timeout=10m
+        " > deployment.yaml
