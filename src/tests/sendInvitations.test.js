@@ -3,6 +3,7 @@ const axios = require('axios');
 
 const eventId = '123';
 const selectedUsers = ['Ohio', 'Heisenberg'];
+const selectedUsers2 = ['Mrroboto'];
 const users = [
   { username: 'Ohio', _id: '1' },
   { username: 'Heisenberg', _id: '2' }
@@ -29,5 +30,15 @@ describe('sendInvitations', () => {
           invited: user._id
         });
       });
+    });
+    it("Should not send an invitation to a user that doesn't exist", async () => {
+        axios.post.mockResolvedValue({ status: 200 });
+        // Execute the function with a non-existent user
+        const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        await sendInvitations(eventId, selectedUsers2, users, authenticate);
+        // Assertion
+        expect(authenticate).not.toHaveBeenCalled();
+        expect(axios.post).not.toHaveBeenCalled();
+        expect(consoleSpy).toHaveBeenCalledWith("Error sending invitations:", expect.any(Error));
     });
 });

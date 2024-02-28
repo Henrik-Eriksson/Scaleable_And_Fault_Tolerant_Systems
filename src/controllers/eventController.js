@@ -22,9 +22,15 @@ const sendInvitations = async (eventId, selectedUsers, users, authenticate) => {
           };
           await axios.post('http://localhost:5050/api/invites/createInvite', inviteData);
         }
+        else 
+        {
+          throw new Error(`User ${username} does not exist`);
+        }
       }
+  
     } catch (error) {
       console.error("Error sending invitations:", error);
+      
     }
 };
 

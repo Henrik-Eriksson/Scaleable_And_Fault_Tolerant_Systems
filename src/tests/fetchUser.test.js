@@ -3,6 +3,9 @@ const axios = require('axios');
 jest.mock('axios');
 
 describe('fetchUsers', () => {
+  beforeAll(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
     it('fetches users successfully', async () => {
       // Mock axios.get to resolve with mock data
       const users = [{ id: 1, name: 'John Doe' }];
