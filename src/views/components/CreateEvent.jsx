@@ -2,9 +2,7 @@ import React, { useState, useEffect} from "react";
 import { Button, TextField, Typography, FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@mui/material";
 import { Tooltip } from "@mui/material";
 import { authenticate } from '../../App.jsx'
-import {fetchUsers, sendInvitations} from '../../controllers/eventController.js'
 const eventController = require('../../controllers/eventController.js');
-const sendInvitations = require('../../controllers/eventController.js');
 import axios from 'axios';
 
 function CreateEvent({closeDialog, addEvent, setSelectedDates, selectedDates, clearSelectedDates}) {
@@ -15,7 +13,7 @@ function CreateEvent({closeDialog, addEvent, setSelectedDates, selectedDates, cl
 useEffect(() => {
     const fetchData = async () => {
         //const userId = await authenticate();
-        const fetchedUsers = await fetchUsers();
+        const fetchedUsers = await eventController.fetchUsers();
         setUsers(fetchedUsers);
     };
 
@@ -163,7 +161,7 @@ const handleUserSelect = (user) => {
     console.log(endTime.toString());
     console.log(startTime.toString());
     //TODO: add to DB and retrieve
-    sendInvitations(newEvent.id);
+    eventController.sendInvitations(newEvent.id);
     addEvent(newEvent);
     
     clearSelectedDates();
