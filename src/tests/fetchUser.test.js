@@ -1,6 +1,5 @@
-const { fetchUsers } = require('../controllers/eventController.js'); // Adjust the import path as necessary
+const { fetchUsers} = require('../controllers/eventController.js'); // Adjust the import path as necessary
 const axios = require('axios');
-
 jest.mock('axios');
 
 describe('fetchUsers', () => {
@@ -26,4 +25,4 @@ describe('fetchUsers', () => {
       // Assert that the result is as expected
       expect(result).toEqual([]);
     });
-  });
+});
