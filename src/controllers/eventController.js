@@ -1,6 +1,6 @@
-import axios from 'axios';
+const axios = require('axios');
 
-export const fetchUsers = async () => {
+const fetchUsers = async () => {
     try {
         const response = await axios.get('http://localhost:5050/api/users');
         return response.data;
@@ -8,9 +8,9 @@ export const fetchUsers = async () => {
         console.error("Error fetching users:", error);
         return [];
     }
-}
+};
 
-export const sendInvitations = async (eventId) => {
+const sendInvitations = async (eventId, selectedUsers, users, authenticate) => {
     try {
       for (let username of selectedUsers) {
         const user = users.find(u => u.username === username);
@@ -26,4 +26,9 @@ export const sendInvitations = async (eventId) => {
     } catch (error) {
       console.error("Error sending invitations:", error);
     }
-}
+};
+
+module.exports = {
+    fetchUsers,
+    sendInvitations
+};
