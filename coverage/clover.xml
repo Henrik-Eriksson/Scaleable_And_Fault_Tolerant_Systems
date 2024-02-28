@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1709129254130" clover="3.2.0">
-  <project timestamp="1709129254131" name="All files">
+<coverage generated="1709129406977" clover="3.2.0">
+  <project timestamp="1709129406978" name="All files">
     <metrics statements="34" coveredstatements="18" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="1" elements="38" coveredelements="21" complexity="0" loc="34" ncloc="34" packages="1" files="1" classes="1"/>
-    <file name="eventController.js" path="C:\Users\46736\Dropbox\Min PC (LAPTOP-PP8G8U3A)\Desktop\skalbarrompa\src\controllers\eventController.js">
+    <file name="eventController.js" path="C:\Users\joso0\Desktop\gittis\src\controllers\eventController.js">
       <metrics statements="34" coveredstatements="18" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="1"/>
       <line num="1" count="1" type="stmt"/>
       <line num="2" count="1" type="stmt"/>
