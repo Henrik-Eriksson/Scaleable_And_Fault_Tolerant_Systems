@@ -3,6 +3,8 @@ import { Button, TextField, Typography, FormControl, InputLabel, Select, MenuIte
 import { Tooltip } from "@mui/material";
 import { authenticate } from '../../App.jsx'
 import {fetchUsers, sendInvitations} from '../../controllers/eventController.js'
+const eventController = require('../../controllers/eventController.js');
+const sendInvitations = require('../../controllers/eventController.js');
 import axios from 'axios';
 
 function CreateEvent({closeDialog, addEvent, setSelectedDates, selectedDates, clearSelectedDates}) {
