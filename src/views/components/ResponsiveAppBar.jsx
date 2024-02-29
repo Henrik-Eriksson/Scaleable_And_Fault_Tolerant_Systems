@@ -14,11 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import NotificationCenter from './NotificationCenter.jsx';
-import { authenticate } from '../../App.jsx'
 import { useState, useEffect} from "react";
-import axios from 'axios';
-import {fetchInviterUsername, fetchInvites } from '../../controllers/invitationController.js';
-import {fetchData} from '../../controllers/userController.js';
+const invitationController = require('../../controllers/invitationController.js');
 const pages = ['Home', 'Calendar', 'Profile', 'Account'];
 const links = ['', 'calendar', 'profile', 'account']; 
 const settings = ['Profile', 'Account', 'Logout'];
@@ -42,12 +39,12 @@ const playNotificationSound = () => {
 
 
 useEffect(() => {
-    fetchInvites(); // Fetch invites immediately on component mount
+    invitationController.fetchInvites(); // Fetch invites immediately on component mount
     fetchData();
 
 
     const intervalId = setInterval(() => {
-      fetchInvites();
+      invitationController.fetchInvites();
     }, 5000); // Fetch every 10 seconds
 
     return () => clearInterval(intervalId); // Cleanup on component unmount
@@ -62,7 +59,7 @@ useEffect(() => {
     newInvites.forEach(async (invite) => {
       if (invite.inviter) {
         try {
-          const response = fetchInviterUsername(invite.inviter);
+          const response = invitationController.fetchInviterUsername(invite.inviter);
           const inviterUsername = response.data.username;
           toast(`You have a new invite from ${inviterUsername}`, {
             type: "info",

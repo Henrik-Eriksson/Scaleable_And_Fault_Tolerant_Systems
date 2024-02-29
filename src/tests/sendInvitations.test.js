@@ -1,4 +1,4 @@
-const {sendInvitations} = require('../controllers/eventController.js'); // Adjust the import path as necessary
+const {sendInvitations} = require('../controllers/invitationController.js'); // Adjust the import path as necessary
 const axios = require('axios');
 
 const eventId = '123';

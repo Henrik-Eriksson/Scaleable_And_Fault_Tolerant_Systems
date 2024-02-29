@@ -1,7 +1,7 @@
-import axios from "axios";
+const axios = require('axios');
 
 // This function is used to fetch a specifc user's data from the server
-export const fetchData = async () => {
+const fetchData = async () => {
     try {
       const userId = await authenticate();
       const response = await fetch(`http://localhost:5050/api/users/${userId}`);
@@ -13,7 +13,7 @@ export const fetchData = async () => {
 }
 
 // This function is used to fetch the user's data from the server
-export const fetchUsers = async () => {
+const fetchUsers = async () => {
     try {
         const response = await axios.get('http://localhost:5050/api/users');
         return response.data;
@@ -23,7 +23,7 @@ export const fetchUsers = async () => {
     }
 }
 
-export const loginUser = async (username, password, rememberMe) => {
+const loginUser = async (username, password, rememberMe) => {
     try {
         const response = await axios.post('http://localhost:5050/api/users/login', {
             username,
@@ -55,7 +55,7 @@ export const loginUser = async (username, password, rememberMe) => {
 
 
 
-export const validateSignupData = (formData) => {
+const validateSignupData = (formData) => {
     // Perform validation checks
     let hasPasswordMatchError = formData.password !== formData.confirmPassword;
     let hasPasswordLengthError = formData.password.length < 8 || formData.password.length > 50;
@@ -89,7 +89,7 @@ export const validateSignupData = (formData) => {
 };
 
 // Function to register user
-export const registerUser = async (formData) => {
+const registerUser = async (formData) => {
     try {
         const response = await axios.post('http://localhost:5050/api/users/signup', formData);
         if (response.status === 200) {
@@ -101,3 +101,11 @@ export const registerUser = async (formData) => {
         return { success: false, message: error.message };
     }
 };
+
+module.exports = {
+    fetchUsers,
+    fetchData,
+    loginUser,
+    validateSignupData,
+    registerUser
+}

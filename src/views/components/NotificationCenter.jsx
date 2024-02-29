@@ -7,7 +7,7 @@ import { Trigger } from "./Trigger";
 import { ItemActions } from "./ItemActions";
 import { Switch } from "./Switch";
 import { TimeTracker } from "./TimeTracker";
-import {acceptInvite, declineInvite} from '../../controllers/invitationController.js'
+const invitationController = require('../../controllers/invitationController.js');
 
 const variants = {
   container: {
@@ -116,7 +116,7 @@ const NotificationCenter = () => {
 const customClear =  () =>
 {
 
-  notifications.forEach((notification) => declineInvite(notification.data.inviteId,notification));
+  notifications.forEach((notification) => invitationController.declineInvite(notification.data.inviteId,notification));
   clear();
 }
 
@@ -152,8 +152,8 @@ const customClear =  () =>
                       <div>{notification.content}</div>
                       <TimeTracker createdAt={notification.createdAt} />
                                     <div>
-                <button onClick={() => acceptInvite(notification.data.inviteId, notification.data.eventId,notification)}>Accept</button>
-                <button onClick={() => declineInvite(notification.data.inviteId,notification)}>Decline</button>
+                <button onClick={() => invitationController.acceptInvite(notification.data.inviteId, notification.data.eventId,notification)}>Accept</button>
+                <button onClick={() => invitationController.declineInvite(notification.data.inviteId,notification)}>Decline</button>
               </div>
                     </div>
                     <ItemActions notification={notification} markAsRead={markAsRead} remove={remove} />

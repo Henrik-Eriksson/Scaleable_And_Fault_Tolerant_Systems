@@ -7,6 +7,7 @@ import { authenticate } from '../../App.jsx'
 import { Snackbar, Alert } from "@mui/material";
 
 
+
 const sampleUserData = {
   id: 1,
   firstname: "John",
@@ -252,7 +253,6 @@ const handleSavePassword = async () => {
   return (
     <>
     <Snackbar 
-    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
   open={snackbarOpen} 
   autoHideDuration={6000} 
   onClose={handleSnackbarClose}

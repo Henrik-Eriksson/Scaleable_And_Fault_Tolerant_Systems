@@ -8,7 +8,7 @@ import CustomInputField from '../components/CustomInputField.jsx';
 import CustomCheckBox from '../components/CustomCheckBox.jsx';
 import CustomForm from '../components/CustomForm.jsx';
 import React, { useState, useEffect } from 'react';
-import {validateSignupData, registerUser} from '../../controllers/userController.js'
+const userController = require('../../controllers/userController.js');
 
 
 function Signup() {
@@ -26,11 +26,11 @@ function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const validationErrors = validateSignupData(formData);
+        const validationErrors = userController.validateSignupData(formData);
         setErrors(validationErrors.errors);
 
         if (!(Object.values(validationErrors).some(error => error))) {
-          const result = await registerUser(formData);
+          const result = await userController.registerUser(formData);
           
           if (result.success) {
               console.log(result.data);

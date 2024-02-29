@@ -1,4 +1,4 @@
-const { fetchUsers} = require('../controllers/eventController.js'); // Adjust the import path as necessary
+const { fetchUsers} = require('../controllers/userController.js'); // Adjust the import path as necessary
 const axios = require('axios');
 jest.mock('axios');
 

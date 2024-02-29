@@ -1,6 +1,6 @@
-import axios from 'axios';
+const axios = require('axios');
 
-export const acceptInvite = async (inviteId, eventId, notification) => {
+const acceptInvite = async (inviteId, eventId, notification) => {
 
     remove(notification.id);
 
@@ -20,7 +20,7 @@ export const acceptInvite = async (inviteId, eventId, notification) => {
   }
 }
 
-export const declineInvite = async (inviteId,notification) => {
+const declineInvite = async (inviteId,notification) => {
     console.log(inviteId);
     remove(notification.id);
     try {
@@ -31,7 +31,7 @@ export const declineInvite = async (inviteId,notification) => {
     }
 }
 
-export const fetchInvites = async () => {
+const fetchInvites = async () => {
   try {
     const userId = await authenticate();
     const response = await axios.get(`http://localhost:5050/api/invites/receivedInvites/${userId}`);
@@ -55,7 +55,7 @@ export const fetchInvites = async () => {
   }
 }
 
-export const fetchInviterUsername = async (inviterId) => {
+const fetchInviterUsername = async (inviterId) => {
   try {
     const response = await axios.get(`http://localhost:5050/api/users/usernameFromId/${inviterId}`);
     setInviterUsername(response.data.username);
@@ -64,7 +64,7 @@ export const fetchInviterUsername = async (inviterId) => {
   }
 }
 
-export const sendInvitations = async (eventId) => {
+const sendInvitations = async (eventId, selectedUsers, users, authenticate) => {
   try {
     for (let username of selectedUsers) {
       const user = users.find(u => u.username === username);
@@ -76,17 +76,16 @@ export const sendInvitations = async (eventId) => {
         };
         await axios.post('http://localhost:5050/api/invites/createInvite', inviteData);
       }
+      else 
+      {
+        throw new Error(`User ${username} does not exist`);
+      }
     }
+
   } catch (error) {
     console.error("Error sending invitations:", error);
-  }
-}
-
-export const fetchInvitersUsername = async (inviter) => {
-  try {
-  await axios.get(`http://localhost:5050/api/users/usernameFromId/${inviter}`);
-  }
-  catch (error) {
-    console.error("Error fetching inviter's username:", error);
+    
   }
 };
+
+module.exports = { acceptInvite, declineInvite, fetchInvites, sendInvitations};
