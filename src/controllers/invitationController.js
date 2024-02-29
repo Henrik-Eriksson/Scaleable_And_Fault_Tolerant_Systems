@@ -1,8 +1,8 @@
 const axios = require('axios');
 
-const acceptInvite = async (inviteId, eventId, notification) => {
+const acceptInvite = async (inviteId, eventId, notification, remove, fetchEvent, authenticate) => { //TODO PERHAPS: add the remove/fetchEvent/authenticate function above and call it here
 
-    remove(notification.id);
+    remove(notification.id); 
 
     let eventData = await fetchEvent(eventId)
     let userId = await authenticate();
