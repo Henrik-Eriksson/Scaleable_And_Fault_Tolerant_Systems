@@ -29,12 +29,11 @@ describe('acceptInvite', () => {
         const mockNotification = {id: 'notification123'};
     
         // Call the function with mock dependencies
-        await acceptInvite('invite123', 'event123', mockNotification, remove, fetchEventMock, authenticateMock);
+        await acceptInvite('invite123', 'event123', mockNotification, remove, fetchEventMock, "123");
     
         // Assertions to ensure all steps are called correctly
         expect(remove).toHaveBeenCalledWith('notification123');
         expect(fetchEventMock).toHaveBeenCalledWith('event123');
-        expect(authenticateMock).toHaveBeenCalled();
         //expect(axiosMock.post).toHaveBeenCalled();
         //expect(axiosMock.delete).toHaveBeenCalled();
       });
@@ -44,11 +43,10 @@ describe('acceptInvite', () => {
       // Mock implementations for failure case
       axios.post = jest.fn().mockResolvedValue({ status: 500 });
       // Attempt to create the event (expected to fail)
-      await acceptInvite('invite123', 'event123', {id: 'notification123'}, remove, fetchEventMock, authenticateMock);
+      await acceptInvite('invite123', 'event123', {id: 'notification123'}, remove, fetchEventMock, "123");
   
       // Assertions to verify behavior on failure
       expect(axios.delete).not.toHaveBeenCalled();
-      // You can also expect console.error to have been called with specific error message
     });
   
     it('handles failure in invite deletion', async () => {
@@ -58,7 +56,7 @@ describe('acceptInvite', () => {
       axios.delete = jest.fn().mockRejectedValue(new Error('Network error'));
   
       // Attempt to delete the invite (expected to fail)
-      await acceptInvite('invite123', 'event123', {id: 'notification123'}, remove, fetchEventMock, authenticateMock);
+      await acceptInvite('invite123', 'event123', {id: 'notification123'}, remove, fetchEventMock, "123");
   
       // Assertions to verify the correct handling of delete failure
       expect(axios.delete).toHaveBeenCalled();

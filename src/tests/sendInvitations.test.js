@@ -20,17 +20,16 @@ describe('sendInvitations', () => {
       // Setup axios.post to resolve to a mock value
       axios.post = jest.fn().mockResolvedValue({ status: 200 });
   
-      await sendInvitations(eventId, selectedUsers, users, authenticate);
+      await sendInvitations(eventId, selectedUsers, users, "3");
   
       // Assertions
-      expect(authenticate).toHaveBeenCalled();
       expect(axios.post).toHaveBeenCalledTimes(selectedUsers.length);
   
       selectedUsers.forEach(username => {
         const user = users.find(u => u.username === username);
         expect(axios.post).toHaveBeenCalledWith('http://localhost:5050/api/invites/createInvite', {
           eventId,
-          inviter: 'inviterId',
+          inviter: '3',
           invited: user._id
         });
       });
