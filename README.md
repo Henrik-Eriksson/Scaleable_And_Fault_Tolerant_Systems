@@ -1,5 +1,5 @@
 # Group3_Webbutveckling 
-
+![](https://github.com/Henrik-Eriksson/Scaleable_And_Fault_Tolerant_Systems/actions/workflows/cicd.yml/badge.svg)
 
 ## Description
 

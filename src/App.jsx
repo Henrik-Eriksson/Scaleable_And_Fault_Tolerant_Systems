@@ -8,47 +8,7 @@ import EventDetails from './views/components/EventDetails.jsx';
 import axios from 'axios';
 import ProfilePage from './views/pages/ProfilePage.jsx'; 
 import AccountPage from './views/pages/AccountPage.jsx'; 
-
-export async function authenticate()
-{
-
-   const longTermSessionId = localStorage.getItem('session');
-  const shortTermSessionId = sessionStorage.getItem('session');
-
-  let sessionIdToSave;
-
-  if (longTermSessionId) {
-      sessionIdToSave = longTermSessionId;
-  } else if (shortTermSessionId) {
-      sessionIdToSave = shortTermSessionId;
-  }
-
-    try {
-    const response = await axios.post('http://localhost:5050/api/users/userId', {
-      sessionId: sessionIdToSave
-    });
-
-
-    if (response.status === 200) {
-      return response.data.userId;
-    } else {
-      console.error("Couldn't authenticate and fetch userId");
-    }
-  } catch (error) {
-    console.error("An error occurred: " + error.message);
-  }
-
-  return null;
-
-  }
-
-
-
-const userIsLoggedIn = () => {
-  const longTermSessionId = localStorage.getItem('session');
-  const shortTermSessionId = sessionStorage.getItem('session');
-  return !!longTermSessionId || !!shortTermSessionId;
-};
+import {userIsLoggedIn} from './controllers/userController.js'
 
 const LoginPage = () => {
   const loggedIn = userIsLoggedIn(); //This has to be in every component that needs it, (cant be global) in order to respond instantly to changes in session/local storage

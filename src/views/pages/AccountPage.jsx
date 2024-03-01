@@ -3,8 +3,9 @@ import { Grid, Typography, TextField, Button, Link, Avatar, Box, Badge, IconButt
 import BuildIcon from '@mui/icons-material/Build';
 import EditIcon from '@mui/icons-material/Edit';
 import ResponsiveAppBar from "../components/ResponsiveAppBar.jsx";
-import { authenticate } from '../../App.jsx'
+import { authenticate } from '../../controllers/userController.js';
 import { Snackbar, Alert } from "@mui/material";
+
 
 
 const sampleUserData = {
@@ -14,12 +15,12 @@ const sampleUserData = {
   eventcount: "42",
   username: "exampleUser123",
   email: "john.doe@example.com",
-  profilePicture: "https://via.placeholder.com/150",
+  profilePicture: "",
 };
 
 
 function Accountpage() {
-  const [avatarSrc, setAvatarSrc] = useState();
+  const [avatarSrc, setAvatarSrc] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -28,13 +29,13 @@ const [snackbarOpen, setSnackbarOpen] = useState(false);
 const [snackbarMessage, setSnackbarMessage] = useState('');
 const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // can be 'error', 'warning', 'info', 'success'
 
-  const [firstName, setFirstName] = useState();
-const [lastName, setLastName] = useState();
-const [email, setEmail] = useState();
-const [username, setUsername] = useState();
+  const [firstName, setFirstName] = useState("");
+const [lastName, setLastName] = useState("");
+const [email, setEmail] = useState("");
+const [username, setUsername] = useState("");
 
-const [password, setPassword] = useState();
-const [profilePicture, setProfilePicture] = useState();
+const [password, setPassword] = useState("");
+const [profilePicture, setProfilePicture] = useState("");
  const fileInputRef = useRef(null); // Reference to the hidden file input
 
 const handleSnackbarClose = (event, reason) => {
@@ -252,7 +253,6 @@ const handleSavePassword = async () => {
   return (
     <>
     <Snackbar 
-    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
   open={snackbarOpen} 
   autoHideDuration={6000} 
   onClose={handleSnackbarClose}

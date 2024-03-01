@@ -1,8 +1,8 @@
 import React, { useState, useEffect} from "react";
 import { Button, TextField, Typography, FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@mui/material";
 import { Tooltip } from "@mui/material";
-import { authenticate } from '../../App.jsx'
-import {fetchUsers, sendInvitations} from '../../controllers/eventController.js'
+import {fetchUsers, authenticate} from '../../controllers/userController.js';
+import {sendInvitations} from '../../controllers/invitationController.js';
 import axios from 'axios';
 
 function CreateEvent({closeDialog, addEvent, setSelectedDates, selectedDates, clearSelectedDates}) {

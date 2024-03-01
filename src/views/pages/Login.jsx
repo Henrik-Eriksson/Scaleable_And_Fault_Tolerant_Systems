@@ -9,7 +9,8 @@ import CustomCheckBox from '../components/CustomCheckBox.jsx';
 import CustomInfoBox from '../components/CustomInfoBox.jsx';
 import CustomForm from '../components/CustomForm.jsx';
 import { useState } from 'react';
-import {loginUser} from '../../controllers/userController.js'
+import {loginUser} from '../../controllers/userController.js';
+
 
 
 
@@ -32,7 +33,7 @@ const [formData, setFormData] = useState({
         setPasswordMatchError(false);
 
         // Call loginUser from userController
-        const { success, error } = await loginUser(formData.username, formData.password, rememberMe);
+        const { success, error } = await userController.loginUser(formData.username, formData.password, rememberMe);
 
         if (success) {
             location.replace('/');

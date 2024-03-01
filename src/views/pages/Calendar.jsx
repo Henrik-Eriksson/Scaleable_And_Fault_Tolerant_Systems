@@ -22,7 +22,7 @@ import { useState, useEffect, useRef } from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import EventDetails from "../components/EventDetails.jsx";
-import { authenticate } from "../../App.jsx";
+import { authenticate } from '../../controllers/userController.js';
 import { Snackbar, Alert } from "@mui/material";
 
 export const StyleWrapper = styled.div`
@@ -198,6 +198,7 @@ function MyCalendar() {
     } catch (error) {
       console.error("Error deleting event:", error);
     }
+    handleDetailClose();
   }
 
   const [eventDetails, setEventDetails] = useState([]);
@@ -317,12 +318,17 @@ function MyCalendar() {
       info.el.style.backgroundColor = "rgba(205, 209, 228,1)";
     }
 
-    const holiday = holidays.find(
-      (h) => h.date === info.date.toISOString().split("T")[0],
-    );
+  const holiday = holidays.find((h) => {
+    // Parse the holiday date and adjust for the local time zone
+    const holidayDate = new Date(h.date);
+    holidayDate.setDate(holidayDate.getDate() - 1); // Adjust holiday date by subtracting one day
+
+    // Compare the adjusted holiday date with the current cell's date
+    return holidayDate.toISOString().split('T')[0] === info.date.toISOString().split('T')[0];
+  });
     if (holiday) {
       const holidayNameElement = document.createElement("div");
-      console.log("skippiiidioo boop");
+
       holidayNameElement.innerText = holiday.localName;
       holidayNameElement.innerHTML = holiday.localName.replace(" ", "<br>"); // This will break the text at the first space
       holidayNameElement.style.color = "#ff3333";
@@ -407,15 +413,20 @@ function MyCalendar() {
                   }}
                 />
               )}
+
             </StyleWrapper>
+
           </Paper>
         </Grid>
+
+
+
 
         <Dialog
           open={open}
           onClose={handleClose}
           sx={{ overflow: "auto" }}
-          maxWidth="xl" // or "lg" or "xl"
+          maxWidth="sm" // or "lg" or "xl"
           fullWidth={true}
         >
           <CreateEvent

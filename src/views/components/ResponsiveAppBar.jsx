@@ -14,10 +14,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import NotificationCenter from './NotificationCenter.jsx';
-import { authenticate } from '../../App.jsx'
 import { useState, useEffect} from "react";
-import axios from 'axios';
-import {fetchInviterUsername, fetchInvites } from '../../controllers/invitationController.js';
+import {fetchInvites, fetchInviterUsername} from '../../controllers/invitationController.js';
+import { authenticate } from '../../controllers/userController.js';
 import {fetchData} from '../../controllers/userController.js';
 const pages = ['Home', 'Calendar', 'Profile', 'Account'];
 const links = ['', 'calendar', 'profile', 'account']; 
@@ -31,7 +30,7 @@ function ResponsiveAppBar() {
   const [inviterUsername, setInviterUsername] = useState(''); // State to hold the inviter's username
   const [toastMap, setToastMap] = useState({});
   const [userData, setUserData] = useState({
-  profilePicture: 'https://via.placeholder.com/150' // default image
+  profilePicture: '' // default image
 });
 
 
@@ -40,18 +39,23 @@ const playNotificationSound = () => {
   audio.play();
 };
 
-
 useEffect(() => {
-    fetchInvites(); // Fetch invites immediately on component mount
-    fetchData();
+    const fetchInvitesOnAuth = async () => {
+        const userId = await authenticate();
+        if (userId) {
+            await fetchInvites(userId, setInvites);
+            fetchData(setUserData);
+        }
+    };
 
+    fetchInvitesOnAuth();
 
     const intervalId = setInterval(() => {
-      fetchInvites();
-    }, 5000); // Fetch every 10 seconds
+        fetchInvitesOnAuth();
+    }, 5000);
 
-    return () => clearInterval(intervalId); // Cleanup on component unmount
-  }, []); // Empty dependency array so it only runs on mount and unmount
+    return () => clearInterval(intervalId);
+}, []);
 
 const [prevInvitesCount, setPrevInvitesCount] = useState(0);
 
