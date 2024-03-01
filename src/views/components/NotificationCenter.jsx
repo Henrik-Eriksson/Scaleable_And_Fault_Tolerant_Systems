@@ -7,7 +7,7 @@ import { Trigger } from "./Trigger";
 import { ItemActions } from "./ItemActions";
 import { Switch } from "./Switch";
 import { TimeTracker } from "./TimeTracker";
-const invitationController = require('../../controllers/invitationController.js');
+import * as invitationController from '../../controllers/invitationController.js';
 
 const variants = {
   container: {

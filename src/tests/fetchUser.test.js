@@ -1,15 +1,18 @@
-const { fetchUsers} = require('../controllers/userController.js'); // Adjust the import path as necessary
-const axios = require('axios');
-jest.mock('axios');
+import { fetchUsers} from '../controllers/userController.js'; // Adjust the import path as necessary
+import {jest} from '@jest/globals';
+import axios from 'axios';
+
 
 describe('fetchUsers', () => {
-  beforeAll(() => {
-    jest.spyOn(console, 'error').mockImplementation(() => {});
-  });
+    beforeAll(async () => {
+        jest.spyOn(console, 'error').mockImplementation(() => {});
+        jest.spyOn(console, 'log').mockImplementation(() => {});
+    });
+
     it('fetches users successfully', async () => {
-      // Mock axios.get to resolve with mock data
       const users = [{ id: 1, name: 'John Doe' }];
-      axios.get.mockResolvedValue({ data: users });
+      axios.get = jest.fn().mockResolvedValue({ data: users });
+
   
       // Call the function
       const result = await fetchUsers();
@@ -20,7 +23,7 @@ describe('fetchUsers', () => {
   
     it('returns an empty array on error', async () => {
       // Mock axios.get to reject with an error
-      axios.get.mockRejectedValue(new Error('Error fetching users'));
+      axios.get = jest.fn().mockRejectedValue(new Error("Error fetching users"));
   
       // Call the function
       const result = await fetchUsers();

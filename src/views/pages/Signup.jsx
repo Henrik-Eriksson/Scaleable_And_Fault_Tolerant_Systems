@@ -8,7 +8,7 @@ import CustomInputField from '../components/CustomInputField.jsx';
 import CustomCheckBox from '../components/CustomCheckBox.jsx';
 import CustomForm from '../components/CustomForm.jsx';
 import React, { useState, useEffect } from 'react';
-const userController = require('../../controllers/userController.js');
+import {validateSignupData, registerUser} from '../../controllers/userController.js';
 
 
 function Signup() {

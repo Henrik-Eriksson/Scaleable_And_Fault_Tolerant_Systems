@@ -1,19 +1,19 @@
-const axios = require('axios');
+import axios from 'axios';
 
 // This function is used to fetch a specifc user's data from the server
-const fetchData = async () => {
+export const fetchData = async (setUserData) => {
     try {
       const userId = await authenticate();
       const response = await fetch(`http://localhost:5050/api/users/${userId}`);
       const data = await response.json();
-      setUserData(data);
+      setUserData(data); //React state from view
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
 }
 
 // This function is used to fetch the user's data from the server
-const fetchUsers = async () => {
+export const fetchUsers = async () => {
     try {
         const response = await axios.get('http://localhost:5050/api/users');
         return response.data;
@@ -23,7 +23,7 @@ const fetchUsers = async () => {
     }
 }
 
-const loginUser = async (username, password, rememberMe) => {
+export const loginUser = async (username, password, rememberMe) => {
     try {
         const response = await axios.post('http://localhost:5050/api/users/login', {
             username,
@@ -55,7 +55,7 @@ const loginUser = async (username, password, rememberMe) => {
 
 
 
-const validateSignupData = (formData) => {
+export const validateSignupData = (formData) => {
     // Perform validation checks
     let hasPasswordMatchError = formData.password !== formData.confirmPassword;
     let hasPasswordLengthError = formData.password.length < 8 || formData.password.length > 50;
@@ -89,7 +89,7 @@ const validateSignupData = (formData) => {
 };
 
 // Function to register user
-const registerUser = async (formData) => {
+export const registerUser = async (formData) => {
     try {
         const response = await axios.post('http://localhost:5050/api/users/signup', formData);
         if (response.status === 200) {
@@ -102,10 +102,43 @@ const registerUser = async (formData) => {
     }
 };
 
-module.exports = {
-    fetchUsers,
-    fetchData,
-    loginUser,
-    validateSignupData,
-    registerUser
-}
+export async function authenticate()
+{
+
+   const longTermSessionId = localStorage.getItem('session');
+  const shortTermSessionId = sessionStorage.getItem('session');
+
+  let sessionIdToSave;
+
+  if (longTermSessionId) {
+      sessionIdToSave = longTermSessionId;
+  } else if (shortTermSessionId) {
+      sessionIdToSave = shortTermSessionId;
+  }
+
+    try {
+    const response = await axios.post('http://localhost:5050/api/users/userId', {
+      sessionId: sessionIdToSave
+    });
+
+
+    if (response.status === 200) {
+      return response.data.userId;
+    } else {
+      console.error("Couldn't authenticate and fetch userId");
+    }
+  } catch (error) {
+    console.error("An error occurred: " + error.message);
+  }
+
+  return null;
+
+  }
+
+
+
+export const userIsLoggedIn = () => {
+  const longTermSessionId = localStorage.getItem('session');
+  const shortTermSessionId = sessionStorage.getItem('session');
+  return !!longTermSessionId || !!shortTermSessionId;
+};

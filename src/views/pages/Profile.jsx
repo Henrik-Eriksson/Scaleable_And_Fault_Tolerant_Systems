@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar.jsx';
 import HomePageGrid from '../components/HomePageGrid.jsx';
 import Avatar from '@mui/material/Avatar';
-import { authenticate } from '../../App.jsx'; // Assuming you have this function in App.jsx
+import { authenticate } from '../../controllers/userController.js';
 
 function HomePage() {
   const [userData, setUserData] = useState({

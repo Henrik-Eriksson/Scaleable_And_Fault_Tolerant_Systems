@@ -16,13 +16,11 @@ const config = {
 
   // Automatically clear mock calls, instances, contexts and results before every test
   clearMocks: true,
-
+  testEnvironment: 'node', // Add this line
   // Indicates whether the coverage information should be collected while executing the test
   collectCoverage: true,
   
-    transform: {
-      '^.+\\.[t|j]sx?$': 'babel-jest',
-    },
+    transform: {},
     transformIgnorePatterns: [
       "/node_modules/",
       "\\.pnp\\.[^\\/]+$"

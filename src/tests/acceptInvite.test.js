@@ -1,38 +1,28 @@
-const axios = require('axios');
-const {acceptInvite} = require('../controllers/invitationController.js');
 
-// Mock the external functions and modules
-jest.mock('axios');
+import {acceptInvite} from '../controllers/invitationController.js';
+import {jest} from '@jest/globals';
+import axios from 'axios';
 const remove = jest.fn();
 const fetchEventMock = jest.fn();
 const authenticateMock = jest.fn();
 
-
-const axiosMock = {
-  post: jest.fn(),
-  delete: jest.fn(),
-};
-
-// Mock axios directly inside the jest.mock call
-jest.mock('axios', () => ({
-    post: jest.fn(() => Promise.resolve({ status: 200 })),
-    delete: jest.fn(() => Promise.resolve({})),
-  }));
-
 describe('acceptInvite', () => {
-    beforeAll(() => {
+
+    beforeAll(async () => {
         jest.spyOn(console, 'error').mockImplementation(() => {});
-      });
+        jest.spyOn(console, 'log').mockImplementation(() => {});
+    });
 
     it('successfully creates an event and deletes the invite', async () => {
         // Setup the mock implementations
-  
+
 
 
         fetchEventMock.mockResolvedValue({id: 'event123', name: 'Test Event'});
         authenticateMock.mockResolvedValue('user123');
-        axiosMock.post.mockResolvedValue({ status: 200 });
-        axiosMock.delete.mockResolvedValue({});
+
+        axios.post = jest.fn().mockResolvedValue({ status: 200 });
+        axios.delete = jest.fn().mockResolvedValue({});
         
     
         // Create a mock notification object
@@ -50,8 +40,9 @@ describe('acceptInvite', () => {
       });
   
     it('handles failure in event creation', async () => {
+
       // Mock implementations for failure case
-      axios.post.mockResolvedValue({ status: 500 });
+      axios.post = jest.fn().mockResolvedValue({ status: 500 });
       // Attempt to create the event (expected to fail)
       await acceptInvite('invite123', 'event123', {id: 'notification123'}, remove, fetchEventMock, authenticateMock);
   
@@ -61,9 +52,10 @@ describe('acceptInvite', () => {
     });
   
     it('handles failure in invite deletion', async () => {
+
       // Setup mocks to succeed in event creation but fail in invite deletion
-      axios.post.mockResolvedValue({ status: 200 });
-      axios.delete.mockRejectedValue(new Error('Network error'));
+      axios.post = jest.fn().mockResolvedValue({ status: 200 });
+      axios.delete = jest.fn().mockRejectedValue(new Error('Network error'));
   
       // Attempt to delete the invite (expected to fail)
       await acceptInvite('invite123', 'event123', {id: 'notification123'}, remove, fetchEventMock, authenticateMock);

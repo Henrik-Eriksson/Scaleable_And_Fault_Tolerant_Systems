@@ -9,7 +9,7 @@ import CustomCheckBox from '../components/CustomCheckBox.jsx';
 import CustomInfoBox from '../components/CustomInfoBox.jsx';
 import CustomForm from '../components/CustomForm.jsx';
 import { useState } from 'react';
-const userController = require('../../controllers/userController.js');
+import {loginUser} from '../../controllers/userController.js';
 
 
 

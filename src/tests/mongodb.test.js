@@ -1,7 +1,11 @@
-const dotenv = require('dotenv');
-const path = require('path');
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { MongoClient } from 'mongodb';
+import { jest } from '@jest/globals';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../models/mongo_api/server/.env') });
-const {MongoClient} = require('mongodb');
 
 describe('insert', () => {
   let connection;

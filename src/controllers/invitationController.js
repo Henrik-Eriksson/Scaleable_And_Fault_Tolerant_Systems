@@ -1,11 +1,10 @@
-const axios = require('axios');
+import axios from 'axios';
 
-const acceptInvite = async (inviteId, eventId, notification, remove, fetchEvent, authenticate) => { //TODO PERHAPS: add the remove/fetchEvent/authenticate function above and call it here
+export const acceptInvite = async (inviteId, eventId, notification, remove, fetchEvent, userId) => { //TODO PERHAPS: add the remove/fetchEvent/authenticate function above and call it here
 
     remove(notification.id); 
 
     let eventData = await fetchEvent(eventId)
-    let userId = await authenticate();
     const createEventResponse = await axios.post(`http://localhost:5050/api/users/createEvent`, {event: eventData, userId: userId, shared: []});
   if (createEventResponse.status !== 200) {
     console.error("Error creating the new event");
@@ -20,7 +19,7 @@ const acceptInvite = async (inviteId, eventId, notification, remove, fetchEvent,
   }
 }
 
-const declineInvite = async (inviteId,notification,remove) => {
+export const declineInvite = async (inviteId,notification,remove) => {
     console.log(inviteId);
     remove(notification.id);
     try {
@@ -31,9 +30,8 @@ const declineInvite = async (inviteId,notification,remove) => {
     }
 }
 
-const fetchInvites = async () => {
+export const fetchInvites = async (userId, setInvites) => {
   try {
-    const userId = await authenticate();
     const response = await axios.get(`http://localhost:5050/api/invites/receivedInvites/${userId}`);
     const fetchedInvites = response.data;
     const inviterUsernames = {};
@@ -46,16 +44,13 @@ const fetchInvites = async () => {
       }
     }
 
-    // Now you have a map of inviter IDs to usernames in inviterUsernames
-    // You can use this map to display the usernames in your component
-
-    setInvites(fetchedInvites);
+    setInvites(fetchedInvites); //React State from view
   } catch (error) {
     console.error("Error fetching invites:", error);
   }
 }
 
-const fetchInviterUsername = async (inviterId) => {
+export const fetchInviterUsername = async (inviterId) => {
   try {
     const response = await axios.get(`http://localhost:5050/api/users/usernameFromId/${inviterId}`);
     setInviterUsername(response.data.username);
@@ -64,14 +59,14 @@ const fetchInviterUsername = async (inviterId) => {
   }
 }
 
-const sendInvitations = async (eventId, selectedUsers, users, authenticate) => {
+export const sendInvitations = async (eventId, selectedUsers, users, userId) => {
   try {
     for (let username of selectedUsers) {
       const user = users.find(u => u.username === username);
       if (user) {
         const inviteData = {
           eventId: eventId,
-          inviter: await authenticate(), 
+          inviter: userId, 
           invited: user._id
         };
         await axios.post('http://localhost:5050/api/invites/createInvite', inviteData);
@@ -87,5 +82,3 @@ const sendInvitations = async (eventId, selectedUsers, users, authenticate) => {
     
   }
 };
-
-module.exports = { acceptInvite, declineInvite, fetchInvites, sendInvitations};

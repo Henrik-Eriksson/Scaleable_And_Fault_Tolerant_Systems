@@ -1,5 +1,6 @@
-const {sendInvitations} = require('../controllers/invitationController.js'); // Adjust the import path as necessary
-const axios = require('axios');
+import {sendInvitations} from '../controllers/invitationController.js'; // Adjust the import path as necessary
+import axios from 'axios';
+import {jest} from '@jest/globals';
 
 const eventId = '123';
 const selectedUsers = ['Ohio', 'Heisenberg'];
@@ -9,12 +10,15 @@ const users = [
   { username: 'Heisenberg', _id: '2' }
 ];
 const authenticate = jest.fn().mockResolvedValue('inviterId');
-jest.mock('axios');
 
 describe('sendInvitations', () => {
+      beforeAll(async () => {
+        jest.spyOn(console, 'error').mockImplementation(() => {});
+        jest.spyOn(console, 'log').mockImplementation(() => {});
+    });
     it('sends invitations to selected users', async () => {
       // Setup axios.post to resolve to a mock value
-      axios.post.mockResolvedValue({ status: 200 });
+      axios.post = jest.fn().mockResolvedValue({ status: 200 });
   
       await sendInvitations(eventId, selectedUsers, users, authenticate);
   
