@@ -20,7 +20,7 @@ const acceptInvite = async (inviteId, eventId, notification, remove, fetchEvent,
   }
 }
 
-const declineInvite = async (inviteId,notification) => {
+const declineInvite = async (inviteId,notification,remove) => {
     console.log(inviteId);
     remove(notification.id);
     try {
