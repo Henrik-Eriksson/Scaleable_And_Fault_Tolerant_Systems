@@ -11,8 +11,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    #maek smale test
-    - name: Maek teste
+    #run tests
+    - name: run tests
       run: |
         npm install
         npm run test
