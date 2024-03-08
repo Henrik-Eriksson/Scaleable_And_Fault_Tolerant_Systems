@@ -30,6 +30,8 @@ export const loginUser = async (username, password, rememberMe) => {
             password
         });
         
+        console.log(response.status);
+        console.log(response.data);
         if (response.status === 200) {
             console.log(response.data);
             if (rememberMe) {
@@ -114,6 +116,9 @@ export async function authenticate()
       sessionIdToSave = longTermSessionId;
   } else if (shortTermSessionId) {
       sessionIdToSave = shortTermSessionId;
+  } else
+  {
+    return;
   }
 
     try {
