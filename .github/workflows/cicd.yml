@@ -1,5 +1,4 @@
 name: CI/CD Pipeline
-
 on:
   push:
     branches: [ master ]
@@ -26,7 +25,6 @@ jobs:
         username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
         password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
 
-# OUT OF MONEY ON AZURE SO IGNORE EVERYTHING BELOW
     # Bygga och pusha Docker image till Azure Container Registry
     - name: Build and Push Docker Image
       run: |
