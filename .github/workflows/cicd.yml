@@ -22,7 +22,7 @@ jobs:
     - name: Login to Azure Container Registry
       uses: azure/docker-login@v1
       with:
-        login-server: skalbarasystemcontainerregistry.azurecr.io
+        login-server: skalbarasystemcontainerregistryv7.azurecr.io
         username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
         password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
 
@@ -31,15 +31,15 @@ jobs:
     - name: Build and Push Docker Image
       run: |
         npm run build
-        docker build -t skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }} .
-        docker push skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
+        docker build -t skalbarasystemcontainerregistryv7.azurecr.io/myapp:${{ github.sha }} .
+        docker push skalbarasystemcontainerregistryv7.azurecr.io/myapp:${{ github.sha }}
 
     ## Build and push internal api server docker image
     - name: Build and Push Internal API Server Docker Image
       run: |
         cd src/models/mongo_api/server
-        docker build -t skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }} .
-        docker push skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
+        docker build -t skalbarasystemcontainerregistryv7.azurecr.io/internal_api_server:${{ github.sha }} .
+        docker push skalbarasystemcontainerregistryv7.azurecr.io/internal_api_server:${{ github.sha }}
 #
     ## Configure kubectl
     - name: Set up kubectl
@@ -71,7 +71,7 @@ jobs:
               spec:
                 containers:
                 - name: myapp-container
-                  image: skalbarasystemcontainerregistry.azurecr.io/myapp:${{ github.sha }}
+                  image: skalbarasystemcontainerregistryv7.azurecr.io/myapp:${{ github.sha }}
                   ports:
                   - containerPort: 80
                   resources:
@@ -102,7 +102,7 @@ jobs:
                     periodSeconds: 5
                     timeoutSeconds: 1
                 - name: internal-api-server-container
-                  image: skalbarasystemcontainerregistry.azurecr.io/internal_api_server:${{ github.sha }}
+                  image: skalbarasystemcontainerregistryv7.azurecr.io/internal_api_server:${{ github.sha }}
                   ports:
                   - containerPort: 5050
                   startupProbe:
