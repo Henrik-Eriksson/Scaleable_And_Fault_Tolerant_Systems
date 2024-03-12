@@ -4,7 +4,7 @@ import axios from 'axios';
 export const fetchData = async (setUserData) => {
     try {
       const userId = await authenticate();
-      const response = await fetch(`http://localhost:5050/api/users/${userId}`);
+      const response = await fetch(`http://internal-api-service:5050/api/users/${userId}`);
       const data = await response.json();
       setUserData(data); //React state from view
     } catch (error) {
@@ -15,7 +15,7 @@ export const fetchData = async (setUserData) => {
 // This function is used to fetch the user's data from the server
 export const fetchUsers = async () => {
     try {
-        const response = await axios.get('http://localhost:5050/api/users');
+        const response = await axios.get('http://internal-api-service:5050/api/users');
         return response.data;
     } catch (error) {
         console.error("Error fetching users:", error);
@@ -25,7 +25,7 @@ export const fetchUsers = async () => {
 
 export const loginUser = async (username, password, rememberMe) => {
     try {
-        const response = await axios.post('http://localhost:5050/api/users/login', {
+        const response = await axios.post('http://internal-api-service:5050/api/users/login', {
             username,
             password
         });
@@ -93,7 +93,7 @@ export const validateSignupData = (formData) => {
 // Function to register user
 export const registerUser = async (formData) => {
     try {
-        const response = await axios.post('http://localhost:5050/api/users/signup', formData);
+        const response = await axios.post('http://internal-api-service:5050/api/users/signup', formData);
         if (response.status === 200) {
             return { success: true, data: response.data };
         } else {
@@ -122,7 +122,7 @@ export async function authenticate()
   }
 
     try {
-    const response = await axios.post('http://localhost:5050/api/users/userId', {
+    const response = await axios.post('http://internal-api-service:5050/api/users/userId', {
       sessionId: sessionIdToSave
     });
 

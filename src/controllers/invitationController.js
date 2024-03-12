@@ -5,14 +5,14 @@ export const acceptInvite = async (inviteId, eventId, notification, remove, fetc
     remove(notification.id); 
 
     let eventData = await fetchEvent(eventId)
-    const createEventResponse = await axios.post(`http://localhost:5050/api/users/createEvent`, {event: eventData, userId: userId, shared: []});
+    const createEventResponse = await axios.post(`http://internal-api-service:5050/api/users/createEvent`, {event: eventData, userId: userId, shared: []});
   if (createEventResponse.status !== 200) {
     console.error("Error creating the new event");
     return;
   }
 
   try {
-    await axios.delete(`http://localhost:5050/api/invites/invite/${inviteId}`);
+    await axios.delete(`http://internal-api-service:5050/api/invites/invite/${inviteId}`);
     // Refresh the notifications or remove the specific notification from the list
   } catch (error) {
     console.error("Error removing the invite", error);
@@ -23,7 +23,7 @@ export const declineInvite = async (inviteId,notification,remove) => {
     console.log(inviteId);
     remove(notification.id);
     try {
-      await axios.delete(`http://localhost:5050/api/invites/invite/${inviteId}`);
+      await axios.delete(`http://internal-api-service:5050/api/invites/invite/${inviteId}`);
       // Refresh the notifications or remove the specific notification from the list
     } catch (error) {
       console.error("Error declining invite:", error);
@@ -32,7 +32,7 @@ export const declineInvite = async (inviteId,notification,remove) => {
 
 export const fetchInvites = async (userId, setInvites) => {
   try {
-    const response = await axios.get(`http://localhost:5050/api/invites/receivedInvites/${userId}`);
+    const response = await axios.get(`http://internal-api-service:5050/api/invites/receivedInvites/${userId}`);
     const fetchedInvites = response.data;
     const inviterUsernames = {};
 
@@ -52,7 +52,7 @@ export const fetchInvites = async (userId, setInvites) => {
 
 export const fetchInviterUsername = async (inviterId) => {
   try {
-    const response = await axios.get(`http://localhost:5050/api/users/usernameFromId/${inviterId}`);
+    const response = await axios.get(`http://internal-api-service:5050/api/users/usernameFromId/${inviterId}`);
     setInviterUsername(response.data.username);
   } catch (error) {
     console.error("Error fetching inviter's username:", error);
@@ -69,7 +69,7 @@ export const sendInvitations = async (eventId, selectedUsers, users, userId) => 
           inviter: userId, 
           invited: user._id
         };
-        await axios.post('http://localhost:5050/api/invites/createInvite', inviteData);
+        await axios.post('http://internal-api-service:5050/api/invites/createInvite', inviteData);
       }
       else 
       {

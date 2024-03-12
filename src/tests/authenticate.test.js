@@ -51,7 +51,7 @@ describe('authenticate', () => {
 
     const userId = await authenticate();
 
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:5050/api/users/userId', {
+    expect(axios.post).toHaveBeenCalledWith('http://internal-api-service:5050/api/users/userId', {
       sessionId: 'long-term-session-id'
     });
     expect(userId).toBe('123');
@@ -62,7 +62,7 @@ describe('authenticate', () => {
 
     const userId = await authenticate();
 
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:5050/api/users/userId', {
+    expect(axios.post).toHaveBeenCalledWith('http://internal-api-service:5050/api/users/userId', {
       sessionId: 'short-term-session-id'
     });
     expect(userId).toBe('123');

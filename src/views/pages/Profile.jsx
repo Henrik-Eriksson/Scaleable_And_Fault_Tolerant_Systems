@@ -15,7 +15,7 @@ function HomePage() {
     const fetchData = async () => {
       try {
         const userId = await authenticate();
-        const response = await fetch(`http://localhost:5050/api/users/${userId}`);
+        const response = await fetch(`http://internal-api-service:5050/api/users/${userId}`);
         const data = await response.json();
 
         setUserData({

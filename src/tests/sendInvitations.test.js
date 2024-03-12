@@ -27,7 +27,7 @@ describe('sendInvitations', () => {
   
       selectedUsers.forEach(username => {
         const user = users.find(u => u.username === username);
-        expect(axios.post).toHaveBeenCalledWith('http://localhost:5050/api/invites/createInvite', {
+        expect(axios.post).toHaveBeenCalledWith('http://internal-api-service:5050/api/invites/createInvite', {
           eventId,
           inviter: '3',
           invited: user._id
