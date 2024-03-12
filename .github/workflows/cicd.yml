@@ -96,7 +96,7 @@ jobs:
                     command:
                     - sh
                     - -c
-                    - 'test -f /app/index.html'
+                    - 'test -f /var/www/html/index.html'
                   initialDelaySeconds: 5
                   periodSeconds: 5
                 livenessProbe:
