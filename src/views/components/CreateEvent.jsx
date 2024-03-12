@@ -12,7 +12,6 @@ function CreateEvent({closeDialog, addEvent, setSelectedDates, selectedDates, cl
 
 useEffect(() => {
     const fetchData = async () => {
-        //const userId = await authenticate();
         const fetchedUsers = await fetchUsers();
         setUsers(fetchedUsers);
     };
@@ -161,7 +160,8 @@ const handleUserSelect = (user) => {
     console.log(endTime.toString());
     console.log(startTime.toString());
     //TODO: add to DB and retrieve
-    sendInvitations(newEvent.id);
+    const userId = authenticate();
+    sendInvitations(newEvent.id,selectedUsers,users,userId);
     addEvent(newEvent);
     
     clearSelectedDates();
