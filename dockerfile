@@ -14,5 +14,5 @@ RUN npm install -g http-server
 EXPOSE 80
 
 # Start the server
-CMD ["http-server", "/app", "-p 80"]
+CMD ["http-server", "/app", "-p 80", "--spa"]
 
