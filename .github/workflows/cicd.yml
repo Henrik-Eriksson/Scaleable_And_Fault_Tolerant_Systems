@@ -96,7 +96,7 @@ jobs:
                     command:
                     - sh
                     - -c
-                    - 'test -f /var/www/html/index.html'
+                    - 'test -f /usr/share/nginx/html/index.html'
                   initialDelaySeconds: 5
                   periodSeconds: 5
                 livenessProbe:

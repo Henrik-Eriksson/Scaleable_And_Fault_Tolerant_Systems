@@ -21,7 +21,7 @@ RUN npm install
 COPY . /app
 
 # build the app 
-RUN npm build
+RUN npm run build
 
 # STAGE 2 - build the final image using a nginx web server 
 # distribution and copy the react build files
