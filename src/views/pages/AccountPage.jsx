@@ -79,7 +79,7 @@ const handleUsernameChange = (e) => {
 
     try {
       // Send the file to the server
-      const response = await fetch('http://internal-api-service.default.svc.cluster.local:5050/api/upload', {
+      const response = await fetch('http://20.45.152.9:5050/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -114,7 +114,7 @@ useEffect(() => {
       // Assuming authenticate() is an async function that returns the user's ID
       const userId = await authenticate(); 
 
-      const response = await fetch(`http://internal-api-service.default.svc.cluster.local:5050/api/users/${userId}`);
+      const response = await fetch(`http://20.45.152.9:5050/api/users/${userId}`);
       const data = await response.json();
         console.log(data);
       setFirstName(data.firstName);
@@ -158,7 +158,7 @@ const handleSaveChanges = async () => {
     // Assuming authenticate() is an async function that returns the user's ID
     const userId = await authenticate();
 
-    const response = await fetch(`http://internal-api-service.default.svc.cluster.local:5050/api/users/${userId}`, {
+    const response = await fetch(`http://20.45.152.9:5050/api/users/${userId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -210,7 +210,7 @@ const handleSavePassword = async () => {
 
   try {
     // Make a PATCH request to update the password on the server
-    const response = await fetch(`http://internal-api-service.default.svc.cluster.local:5050/api/users/${userId}`, {
+    const response = await fetch(`http://20.45.152.9:5050/api/users/${userId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

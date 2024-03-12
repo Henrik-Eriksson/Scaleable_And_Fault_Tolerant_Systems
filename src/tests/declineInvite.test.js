@@ -28,7 +28,7 @@ describe('declineInvite', () => {
         // Act
         await declineInvite(inviteId, notification, remove);
         // Assert
-        //expect(axios.delete).toHaveBeenCalledWith(`http://internal-api-service.default.svc.cluster.local:5050/api/invites/invite/${inviteId}`);
+        //expect(axios.delete).toHaveBeenCalledWith(`http://20.45.152.9:5050/api/invites/invite/${inviteId}`);
         expect(axios.delete).toHaveBeenCalled();
         expect(remove).toHaveBeenCalledWith(notification.id);
     });
@@ -43,6 +43,6 @@ describe('declineInvite', () => {
         await declineInvite(inviteId, notification, remove);
     
         // Assert
-        expect(axios.delete).toHaveBeenCalledWith(`http://internal-api-service.default.svc.cluster.local:5050/api/invites/invite/${inviteId}`);
+        expect(axios.delete).toHaveBeenCalledWith(`http://20.45.152.9:5050/api/invites/invite/${inviteId}`);
     });
 });

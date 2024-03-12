@@ -105,7 +105,7 @@ function MyCalendar() {
     try {
       // Fetch existing events for the user
       let response = await axios.post(
-        "http://internal-api-service.default.svc.cluster.local:5050/api/users/getEvents",
+        "http://20.45.152.9:5050/api/users/getEvents",
         {
           userId: userId,
         },
@@ -138,7 +138,7 @@ function MyCalendar() {
     console.log("hello1");
     try {
       let response = await axios.post(
-        "http://internal-api-service.default.svc.cluster.local:5050/api/users/createEvent",
+        "http://20.45.152.9:5050/api/users/createEvent",
         {
           event: newEvent,
           userId: userId,
@@ -179,7 +179,7 @@ function MyCalendar() {
     try {
       // Make a DELETE request to the backend to delete the event
       const response = await axios.delete(
-        `http://internal-api-service.default.svc.cluster.local:5050/api/users/deleteEvent/${id}`,
+        `http://20.45.152.9:5050/api/users/deleteEvent/${id}`,
       );
 
       // Check if the event was deleted successfully
