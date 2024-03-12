@@ -40,10 +40,10 @@ app.get('/health', async (req, res) => {
   } catch (error) {
     console.error('Database connection failed:', error);
     res.status(500).send('Database connection failed');
-  } finally {
+  }// finally {
     // Stäng anslutningen efter kontrollen
-    await client.close();
-  }
+   // await client.close();
+  //}
 });
 
 
