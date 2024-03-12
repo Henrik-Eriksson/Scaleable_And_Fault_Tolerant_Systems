@@ -1,25 +1,19 @@
-FROM node:18-alpine3.17 as build
+FROM node:18-alpine3.17
 
+# Sätt arbetskatalogen i containern
 WORKDIR /app
+
+# Kopiera hela projektet till arbetskatalogen i containern
 COPY . /app
 
+# Installera beroenden
 RUN npm install
+
+# Bygg applikationen
 RUN npm run build
 
-FROM ubuntu
-RUN apt-get update && \
-    apt-get install nginx -y && \
-    echo "server { \n\
-    listen 80; \n\
-    \n\
-    root /var/www/html; \n\
-    index index.html; \n\
-    \n\
-    location / { \n\
-        try_files \$uri \$uri/ /index.html; \n\
-    } \n\
-}" > /etc/nginx/conf.d/default.conf
-
-COPY --from=build /app/build /var/www/html/
+# Exponera porten som din applikations preview-kommando använder
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+# Kör preview-kommando
+CMD ["npm", "run", "preview"]
