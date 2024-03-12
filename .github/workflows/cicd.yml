@@ -91,14 +91,14 @@ jobs:
                   limits:
                     cpu: '500m'
                     memory: '1Gi'
-                #startupProbe:
-                #  exec:
-                #    command:
-                #    - sh
-                #    - -c
-                #    - 'test -f /usr/share/nginx/html/index.html'
-                #  initialDelaySeconds: 5
-                #  periodSeconds: 5
+                startupProbe:
+                  exec:
+                    command:
+                    - sh
+                    - -c
+                    - 'test -f /usr/share/nginx/html/index.html'
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
                 livenessProbe:
                   tcpSocket:
                     port: 80
