@@ -51,5 +51,5 @@ app.get('/health', async (req, res) => {
 
 // start the Express server
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on port ${PORT}`);
 });
