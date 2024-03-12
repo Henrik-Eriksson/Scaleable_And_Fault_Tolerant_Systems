@@ -47,7 +47,6 @@ jobs:
         kubectl config set-credentials aks-cluster-user --token=${{ secrets.KUBE_TOKEN }}
         kubectl config set-context aks-cluster --cluster=aks-cluster --user=aks-cluster-user
         kubectl config use-context aks-cluster
-        kubectl delete deployment myapp-deployment
 
     ## Check if the deployment exists and delete if it does
     - name: Delete existing deployment if it exists
