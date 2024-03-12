@@ -3,12 +3,12 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "arg" {
-  name     = "skalbarasystem"
-  location = "West Europe"
+  name     = "skalbarasystemv7"
+  location = "australiasoutheast"
 }
 
 resource "azurerm_container_registry" "acr" {
-  name                = "skalbarasystemcontainerregistry"
+  name                = "skalbarasystemcontainerregistryv7"
   resource_group_name = azurerm_resource_group.arg.name
   location            = azurerm_resource_group.arg.location
   sku                 = "Basic"
@@ -16,7 +16,7 @@ resource "azurerm_container_registry" "acr" {
 }
 
 resource "azurerm_storage_account" "asa" {
-  name                     = "ireojfohsarjfpojas"
+  name                     = "ireojfohsarjfpojasv7"
   resource_group_name      = azurerm_resource_group.arg.name
   location                 = azurerm_resource_group.arg.location
   account_tier             = "Standard"
@@ -24,21 +24,21 @@ resource "azurerm_storage_account" "asa" {
 }
 
 resource "azurerm_storage_container" "asc" {
-  name                  = "storagecontainer"
+  name                  = "storagecontainerv7"
   storage_account_name  = azurerm_storage_account.asa.name
   container_access_type = "private"
 }
 
 resource "azurerm_kubernetes_cluster" "akc" {
-  name                = "kubernetescluster"
+  name                = "kubernetesclusterv7"
   location            = azurerm_resource_group.arg.location
   resource_group_name = azurerm_resource_group.arg.name
   dns_prefix          = "exampleaks"
 
   default_node_pool {
     name       = "default"
-    node_count = 2
-    vm_size    = "Standard_DS2_v2"
+    node_count = 1
+    vm_size    = "Standard_B2s"
   }
 
   identity {
