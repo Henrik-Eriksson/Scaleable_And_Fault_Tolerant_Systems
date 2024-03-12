@@ -26,7 +26,7 @@ RUN npm run build
 # STAGE 2 - build the final image using a nginx web server 
 # distribution and copy the react build files
 FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # needed this to make React Router work properly 
 RUN rm /etc/nginx/conf.d/default.conf
