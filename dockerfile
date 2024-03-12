@@ -1,18 +1,14 @@
-# Use an official lightweight Node.js base image
-FROM node:latest
+FROM node:18-alpine3.17 as build
 
-# Set the working directory in the container
 WORKDIR /app
+COPY . /app
 
-# Copy the built static files from your dist folder into the container
-COPY ./dist/ /app
+RUN npm install
+RUN npm run build
 
-# Install a simple http server for serving static content
-RUN npm install -g http-server
-
-# Expose port 80
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install nginx -y
+COPY --from=build /app/dist /var/www/html/
 EXPOSE 80
-
-# Start the server
-CMD ["http-server", "/app", "-p 80", "--spa"]
-
+CMD ["nginx","-g","daemon off;"]
