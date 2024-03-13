@@ -2,7 +2,7 @@ import express from "express";
 import {db} from "../db/conn.mjs";
 import { ObjectId } from "mongodb";
 
-//   http://localhost:5050/api/invites/ 
+//   http://20.45.152.9:5050/api/invites/ 
 //CRUD
 //CREATE
 const router = express.Router();

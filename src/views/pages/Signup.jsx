@@ -26,11 +26,11 @@ function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const validationErrors = userController.validateSignupData(formData);
+        const validationErrors = validateSignupData(formData);
         setErrors(validationErrors.errors);
 
         if (!(Object.values(validationErrors).some(error => error))) {
-          const result = await userController.registerUser(formData);
+          const result = await registerUser(formData);
           
           if (result.success) {
               console.log(result.data);

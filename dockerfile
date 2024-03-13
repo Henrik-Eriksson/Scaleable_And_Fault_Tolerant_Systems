@@ -1,18 +1,39 @@
-# Use an official lightweight Node.js base image
-FROM node:latest
+# STAGE 1 - build the react app 
+# set the base image to build from 
+# This is the application image from which all other subsequent 
+# applications run. Alpine Linux is a security-oriented, lightweight #(~5Mb) Linux distribution.
+FROM node:alpine as build
 
-# Set the working directory in the container
+# set working directory
+# this is the working folder in the container from which the app.   # will be running from
 WORKDIR /app
 
-# Copy the built static files from your dist folder into the container
-COPY ./dist/ /app
+# add the node_modules folder to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-# Install a simple http server for serving static content
-RUN npm install -g http-server
+# copy package.json file to /app directory for installation prep
+COPY ./package.json /app/
 
-# Expose port 80
+# install dependencies
+RUN npm install
+
+# copy everything to /app directory
+COPY . /app
+
+# build the app 
+RUN npm run build
+
+# STAGE 2 - build the final image using a nginx web server 
+# distribution and copy the react build files
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# needed this to make React Router work properly 
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d
+
+# Expose port 80 for HTTP Traffic 
 EXPOSE 80
 
-# Start the server
-CMD ["http-server", "/app", "-p 80"]
-
+# start the nginx web server
+CMD ["nginx", "-g", "daemon off;"]

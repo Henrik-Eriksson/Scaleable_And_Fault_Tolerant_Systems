@@ -33,7 +33,7 @@ const [formData, setFormData] = useState({
         setPasswordMatchError(false);
 
         // Call loginUser from userController
-        const { success, error } = await userController.loginUser(formData.username, formData.password, rememberMe);
+        const { success, error } = await loginUser(formData.username, formData.password, rememberMe);
 
         if (success) {
             location.replace('/');
