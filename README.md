@@ -1,6 +1,15 @@
 # Group3_Webbutveckling 
 ![](https://github.com/Henrik-Eriksson/Scaleable_And_Fault_Tolerant_Systems/actions/workflows/cicd.yml/badge.svg)
 
+# WEBSITE
+Check out our website running on Azure with KUBERNETES!!!!
+
+[TimeTuna](http://timetuna.com)
+
+
+If the domain doesn't work try direct IP
+http://20.45.152.9/
+
 ## Description
 
 We will make our Web Event Scheduling application scalable. 
