@@ -204,6 +204,7 @@ router.post("/signup", async (req, res) => {
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
+    console.log(error);
     res.status(404).send(false);
   }
 });
