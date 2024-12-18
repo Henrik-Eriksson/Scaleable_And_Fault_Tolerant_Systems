@@ -115,6 +115,13 @@ jobs:
                 image: skalbarasystemcontainerregistryv7.azurecr.io/internal_api_server:${{ github.sha }}
                 ports:
                 - containerPort: 5050
+                resources:
+                  requests:
+                    cpu: '100m'  # Specify appropriate value based on your needs
+                    memory: '200Mi'  # Specify appropriate value based on your needs
+                  limits:
+                    cpu: '200m'  # Specify appropriate value based on your needs
+                    memory: '400Mi'  # Specify appropriate value based on your needs
                 startupProbe:
                   tcpSocket:
                     port: 5050
