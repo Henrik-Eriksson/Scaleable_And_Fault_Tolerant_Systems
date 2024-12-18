@@ -31,11 +31,11 @@ const UserProfile = () => {
         const userId = await authenticate();
 
         // Fetch user details
-        const userResponse = await fetch(`http://20.45.152.9:5050/api/users/${userId}`);
+        const userResponse = await fetch(`http://localhost:5050/api/users/${userId}`);
         const userData = await userResponse.json();
 
         // Fetch user events
-        const eventResponse = await fetch(`http://20.45.152.9:5050/api/users/getEvents`, {
+        const eventResponse = await fetch(`http://localhost:5050/api/users/getEvents`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
